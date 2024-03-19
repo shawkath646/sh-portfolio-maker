@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Home",
+        "href": "/"
+    },
+    {
+        "name": "Portfolio",
+        "href": "/portfolio"
+    },
+    {
+        "name": "Projects",
+        "href": "/projects"
+    },
+    {
+        "name": "Gallery",
+        "href": "/gallery"
+    },
+    {
+        "name": "Preferences",
+        "href": "/preferences"
+    }
+]

@@ -1,5 +1,5 @@
 {
-  "name": "sh-portfolio",
+  "name": "sh-portfolio-maker",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,27 +11,31 @@
   "dependencies": {
     "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.2",
-    "@emotion/react": "^11.11.3",
+    "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "encoding": "^0.1.13",
+    "europa": "^6.0.0",
     "firebase-admin": "^12.0.0",
-    "framer-motion": "^10.17.6",
-    "next": "14.0.4",
-    "next-auth": "^4.24.5",
+    "framer-motion": "^11.0.14",
+    "js-beautify": "^1.15.1",
+    "marked": "^12.0.1",
+    "next": "14.1.3",
+    "next-auth": "^5.0.0-beta.15",
+    "next-auth-provider-cloudburst-lab": "^1.0.3",
     "react": "^18",
-    "react-color-picker": "^4.0.1",
-    "react-colorful": "^5.6.1",
     "react-dom": "^18",
-    "react-hook-form": "^7.49.2",
-    "react-icons": "^4.12.0",
-    "react-intersection-observer": "^9.5.3",
-    "server-only": "^0.0.1",
-    "tailwind-scrollbar-hide": "^1.1.7",
-    "tinycolor2": "^1.6.0"
+    "react-hook-form": "^7.51.1",
+    "react-icons": "^5.0.1",
+    "react-markdown": "^9.0.1",
+    "react-photo-album": "^2.3.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0",
+    "shas-app-controller": "^1.2.3",
+    "swiper": "^11.0.7"
   },
   "devDependencies": {
-    "autoprefixer": "^10",
-    "postcss": "^8",
-    "tailwindcss": "^3"
+    "@types/js-beautify": "^1.14.3",
+    "@types/react": "^18.2.66",
+    "typescript": "^5.4.2"
   }
 }
