@@ -3,13 +3,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Flex, Center, GridItem, Heading, SimpleGrid, Stack, Text, Box, } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/next-js";
-import { SkillsCategoriesType, SkillItemsType } from "@/types/types";
+import { SkillsCategoryType, SkillItemType } from "@/types/types";
 import { IoIosArrowForward } from "react-icons/io";
 import { MdWorkspaces } from "react-icons/md";
 
 
 
-const Skills = ({ skillsItem, categories }: { skillsItem: SkillItemsType[]; categories: SkillsCategoriesType[] }) => (
+const Skills = ({ skillsItem, categories }: { skillsItem: SkillItemType[]; categories: SkillsCategoryType[] }) => (
     <Box as="section" pt={10}>
         <Heading
             as={motion.h3}
@@ -79,11 +79,9 @@ const Skills = ({ skillsItem, categories }: { skillsItem: SkillItemsType[]; cate
                             >
                                 <Flex alignItems="center" gap={4}>
                                     {item.icon ? (
-                                        <Image src="https://storage.googleapis.com/sh-portfolio-97faf.appspot.com/nticgqyaS34Wl4NlIhEB?GoogleAccessId=firebase-adminsdk-w6h90%40sh-portfolio-97faf.iam.gserviceaccount.com&Expires=2016880165&Signature=EwLx0B7vl7JNd5j3pnCgfySqr%2FISMAmxhmGcvRPCRua0aPcnWGpsKfmcH%2FUi78WdE7rNvHTnQIIvtE6qYbvLADzAQjrIbdr0CaQuigd6VhTpjck89YPtvZ88DZMIyYTVBn3OvYmvENTiaXf6DeoJ5JJY1YAUDW%2FDWpNC%2FD%2FqnY5Y2m013U%2FFkg8PbgnXdhQpDG3XiXQsHlb0qoACFQLx41zQbKZucrorkY0U9k3g%2BA%2FDk%2F3DFHuOmrqJ9kOJLPLRetETpMcaJg%2Fkoxs1%2FnmcX8UBiFBGUL0xCUZT%2Bgx0Cr5EukxVcrEjj2idgSAU%2FPaIAfYvIGkZxq%2B4cKJP9x6xiw%3D%3D" alt={`${item.name} icon`} height={42} width={42} />
+                                        <Image src={item.icon} alt={`${item.name} icon`} height={42} width={42} />
                                     ) : (
-                                        <Box color="#0ea5e9">
-                                            <MdWorkspaces size={24} />
-                                        </Box>
+                                        <MdWorkspaces size={24} style={{ color: "#0ea5e9" }} />
                                     )}
                                     <Text fontSize="24px" fontWeight={500}>{item.name}</Text>
                                 </Flex>

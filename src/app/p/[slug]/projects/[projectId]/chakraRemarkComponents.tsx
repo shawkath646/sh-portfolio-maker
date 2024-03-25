@@ -93,6 +93,7 @@ const chakraRemarkComponents: Options["components"] = {
             <Link
                 href={href || "#"}
                 color="#3b82f6"
+                isExternal
                 _hover={{
                     textDecoration: "none",
                     color: "#1d4ed8",

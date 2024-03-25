@@ -8,7 +8,7 @@ export const authConfig = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: '/auth/sign-in',
+        signIn: '/sign-in',
     },
     callbacks: {
         async jwt({ token, profile }) {
@@ -25,7 +25,7 @@ export const authConfig = {
                     isEnterpriseUser,
                     name
                 } = profile;
-                
+                token.id = profile.id;
                 token.emailVerified = email_verified;
                 token.firstName = given_name;
                 token.lastName = family_name;
@@ -40,6 +40,7 @@ export const authConfig = {
             return token;
         },
         async session({ session, token }) {
+            session.user.id = token.id as string;
             session.user.emailVerified = token.emailVerified as Date;
             session.user.dateOfBirth = token.dateOfBirth as Date;
             session.user.firstName = token.firstName as string;

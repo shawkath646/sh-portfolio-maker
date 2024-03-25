@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Card, CardBody, Center, Heading, List, SimpleGrid, Stack, Text, Box } from "@chakra-ui/react";
-import { FeaturedItemsType } from "@/types/types";
+import { Card, CardBody, Center, Heading, SimpleGrid, Stack, Text, Box } from "@chakra-ui/react";
+import { FeaturedItemType } from "@/types/types";
 
-const Featured = ({ featuredItems }: { featuredItems: FeaturedItemsType[] }) => (
+const Featured = ({ featuredItems }: { featuredItems: FeaturedItemType[] }) => (
     <Box as="section" pt={10}>
         <Heading
             as={motion.h2}
@@ -23,8 +23,8 @@ const Featured = ({ featuredItems }: { featuredItems: FeaturedItemsType[] }) => 
         >
             Featured
         </Heading>
-        <List as={SimpleGrid} columns={[1, 1, 2, 2, 3]} gap={5} mt={5} justifyItems="center">
-            {featuredItems.sort((a, b) => a.index - b.index).map((item, index) => (
+        <SimpleGrid columns={[1, 1, 2, 2, 3]} gap={5} mt={5} justifyItems="center">
+            {featuredItems.map((item, index) => (
                 <Card
                     key={index}
                     as={motion.div}
@@ -52,7 +52,7 @@ const Featured = ({ featuredItems }: { featuredItems: FeaturedItemsType[] }) => 
                     }}
                     viewport={{ once: true }}
                 >
-                    <CardBody as={Stack} mt={3} spacing={2}>
+                    <CardBody>
                         <Center>
                             {item.icon && (
                                 <Image
@@ -64,12 +64,12 @@ const Featured = ({ featuredItems }: { featuredItems: FeaturedItemsType[] }) => 
                                 />
                             )}
                         </Center>
-                        <Heading size="lg" textAlign="center">{item.title}</Heading>
+                        <Heading size="lg" textAlign="center" mb={3}>{item.title}</Heading>
                         <Text>{item.description}</Text>
                     </CardBody>
                 </Card>
             ))}
-        </List>
+        </SimpleGrid>
     </Box>
 );
 

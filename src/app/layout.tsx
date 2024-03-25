@@ -14,7 +14,7 @@ const inter = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'SH MARUF - Portfolio Website',
+  title: 'SH Portfolio Maker',
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {

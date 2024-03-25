@@ -1,0 +1,66 @@
+[
+    {
+        "name": "Gray",
+        "hex": "#edf2f7"
+    },
+    {
+        "name": "Red",
+        "hex": "#e53e3e"
+    },
+    {
+        "name": "Orange",
+        "hex": "#dd6b20"
+    },
+    {
+        "name": "Yellow",
+        "hex": "#ecc94b"
+    },
+    {
+        "name": "Green",
+        "hex": "#38a169"
+    },
+    {
+        "name": "Teal",
+        "hex": "#319795"
+    },
+    {
+        "name": "Blue",
+        "hex": "#3182ce"
+    },
+    {
+        "name": "Cyan",
+        "hex": "#0bc5ea"
+    },
+    {
+        "name": "Purple",
+        "hex": "#805ad5"
+    },
+    {
+        "name": "Pink",
+        "hex": "#d53f8c"
+    },
+    {
+        "name": "LinkedIn",
+        "hex": "#00a0dc"
+    },
+    {
+        "name": "Facebook",
+        "hex": "#385898"
+    },
+    {
+        "name": "Messenger",
+        "hex": "#0078ff"
+    },
+    {
+        "name": "Whatsapp",
+        "hex": "#22c35e"
+    },
+    {
+        "name": "Twitter",
+        "hex": "#1da1f2"
+    },
+    {
+        "name": "Telegram",
+        "hex": "#0088cc"
+    }
+]

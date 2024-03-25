@@ -2,18 +2,9 @@
 import { motion } from "framer-motion";
 import { Box, Text, Heading, Stack, Avatar, Button, Flex, SimpleGrid, GridItem, Tag, TagLeftIcon, TagLabel, useMediaQuery } from "@chakra-ui/react";
 import { Link } from '@chakra-ui/next-js';
-import uiColorList from "@/JSONData/uiColorList.json";
 import { IntroType } from '@/types/types';
 import { IoMdInformationCircle } from "react-icons/io";
 import Contacts from "./Contacts";
-
-
-const colorsArray = uiColorList.filter(e => e.name.split(' ')[1] == "500");
-const baseColorNames = colorsArray.map(color => color.name.split(' ')[0].toLocaleLowerCase());
-
-const getRandomBaseColor = (index: number) => {
-    return baseColorNames[index + 2 % baseColorNames.length]
-};
 
 const Intro = ({ introData }: { introData: IntroType }) => {
 
@@ -141,32 +132,34 @@ const Intro = ({ introData }: { introData: IntroType }) => {
                     </Flex>
                 )}
                 <SimpleGrid columns={[1, 1, 1, 2]} maxW="1000px">
-                    <GridItem
-                        as={motion.div}
-                        initial={{
-                            opacity: 0,
-                            x: -100
-                        }}
-                        whileInView={{
-                            opacity: 1,
-                            x: 0,
-                            transition: {
-                                duration: 1,
-                            }
-                        }}
-                        viewport={{ once: true }}
-                    >
-                        <Tag fontWeight={500} size="lg" variant="subtle" colorScheme="purple" mt={10}>
-                            <TagLeftIcon as={IoMdInformationCircle} />
-                            <TagLabel>Profile Description</TagLabel>
-                        </Tag>
-                        <Text color="#4b5563" mt={4} fontWeight={500}>{introData.description}</Text>
-                    </GridItem>
+                    {introData.description && (
+                        <GridItem
+                            as={motion.div}
+                            initial={{
+                                opacity: 0,
+                                x: -100
+                            }}
+                            whileInView={{
+                                opacity: 1,
+                                x: 0,
+                                transition: {
+                                    duration: 1,
+                                }
+                            }}
+                            viewport={{ once: true }}
+                        >
+                            <Tag fontWeight={500} size="lg" variant="subtle" colorScheme="purple" mt={10}>
+                                <TagLeftIcon as={IoMdInformationCircle} />
+                                <TagLabel>Profile Description</TagLabel>
+                            </Tag>
+                            <Text color="#4b5563" mt={4} fontWeight={500}>{introData.description}</Text>
+                        </GridItem>
+                    )}
 
                     <Stack spacing={5} direction="row" mt={10} maxW={450} flexWrap="wrap" justifyContent="center">
                         <Button
                             as={motion.button}
-                            colorScheme={getRandomBaseColor(0)}
+                            colorScheme="blue"
                             rounded={20}
                             initial={{
                                 opacity: 0,
@@ -189,7 +182,7 @@ const Intro = ({ introData }: { introData: IntroType }) => {
                             >
                                 <Button
                                     as={motion.div}
-                                    colorScheme={getRandomBaseColor(index + 1)}
+                                    colorScheme={item.color}
                                     rounded={20}
                                     initial={{
                                         opacity: 0,
@@ -210,7 +203,9 @@ const Intro = ({ introData }: { introData: IntroType }) => {
                     </Stack>
                 </SimpleGrid>
             </Box>
-            <Contacts socialItems={introData.socialItems} />
+            {introData.socialItems.length > 0 && (
+                <Contacts socialItems={introData.socialItems} />
+            )}
         </Stack>
     )
 };

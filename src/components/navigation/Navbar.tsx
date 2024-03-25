@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Session } from 'next-auth';
 import { AppDataType } from 'shas-app-controller/types';
 import { Box, Container, Flex, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Stack, Text, useMediaQuery } from "@chakra-ui/react";
@@ -12,45 +12,79 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import blankUserProfile from "@/assets/blank_user_profile.png";
 
 
-export default function Navbar({ session, appData }: { session: Session | null; appData?: AppDataType }) {
+export default function Navbar({ session, appData }: { session: Session | null; appData: AppDataType }) {
 
   const currentUrl = usePathname();
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
 
-  const showTabs = (session?.user && currentUrl?.startsWith("/profile/")) || currentUrl?.startsWith("/p/");
+  const showTabs = currentUrl?.startsWith("/p/");
+  const partsAfterP = currentUrl?.split("/p/")[1];
+  const username = partsAfterP?.split("/")[0];
+
+  const [hasBackground, setHasBackground] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      if (scrollPosition > 30) {
+        setHasBackground(true);
+      } else {
+        setHasBackground(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <Box as="nav" position="fixed" inset={0} zIndex={99} minH="fit-content" w="full" bg="white">
-      <Container as={Flex} maxW={1536} justifyContent="space-between" alignItems="center" mx="auto" py={2} px={3} color="black">
+    <Box
+      as="nav"
+      position="fixed"
+      inset={0}
+      zIndex={99}
+      minH="fit-content"
+      w="full"
+      bg={hasBackground ? "#fff" : undefined}
+      transition="background-color 0.3s ease"
+    >
+      <Container
+        as={Flex}
+        maxW={1536}
+        justifyContent="space-between"
+        alignItems="center"
+        mx="auto"
+        py={2}
+        px={3}
+        color={(currentUrl === "/" && !hasBackground) ? "#fff" : "#000"}
+      >
         <Stack as={Link} href="/" _hover={{ textDecoration: "none" }} direction="row" alignItems="center" spacing={4}>
           {appData?.appIcon && (
             <Image src={appData.appIcon} height={40} width={40} style={{ height: "40px", width: "40px" }} alt="Header Logo" />
           )}
-          <Text fontSize={["lg", "lg", "xl"]}>{appData?.appName}</Text>
+          <Text fontSize={["lg", "lg", "xl"]}>{appData.appName}</Text>
         </Stack>
         <Stack direction="row" alignItems="center" spacing={5}>
           {(showTabs && isLargerThan992) && (
             <Stack direction="row" alignItems="center" spacing={8}>
-              {navItem.map((item, index) => {
-                const profileUrl = `/profile${item.href}`;
-                const baseUrl = `/p/${session?.user.name}${item.href}`;
-
-                const href = currentUrl?.startsWith("/p/") ? baseUrl : profileUrl;
-                return (
-                  <Link
-                    key={index}
-                    href={href}
-                    textTransform="uppercase"
-                    fontWeight={400} color="#3b82f6"
-                    fontSize="lg"
-                    _hover={{
-                      textDecoration: "none",
-                      color: "#2563eb",
-                      transition: "color 0.3s ease"
-                    }}
-                  >{item.name}</Link>
-                );
-              })}
+              {navItem.map((item, index) => (
+                <Link
+                  key={index}
+                  href={`/p/${username}${item.href}`}
+                  textTransform="uppercase"
+                  fontWeight={400} color="#3b82f6"
+                  fontSize="lg"
+                  _hover={{
+                    textDecoration: "none",
+                    color: "#2563eb",
+                    transition: "color 0.3s ease"
+                  }}
+                >
+                  {item.name}
+                </Link>
+              ))}
             </Stack>
           )}
 
@@ -77,7 +111,7 @@ export default function Navbar({ session, appData }: { session: Session | null; 
                   }}
                 />
               </MenuButton>
-              <MenuList>
+              <MenuList color="black">
                 <MenuItem
                   color={session.user.isEnterpriseUser ? "#f59e0b" : "#3b82f6"}
                   bgColor={session.user.isEnterpriseUser ? "#fef3c7" : "#bae6fd"}
@@ -85,6 +119,7 @@ export default function Navbar({ session, appData }: { session: Session | null; 
                   <Link
                     href="https://sh-authentication-system.vercel.app/auth/profile/enterprise"
                     display="block"
+                    isExternal
                     w="full"
                     _hover={{
                       textDecoration: "none"
@@ -96,7 +131,7 @@ export default function Navbar({ session, appData }: { session: Session | null; 
                 <MenuDivider />
                 <MenuItem as={Link} href='/profile' _hover={{ textDecoration: "none", ring: 0 }}>Profile</MenuItem>
                 <MenuDivider />
-                <MenuItem onClick={() => userSignOut()}>Sign out</MenuItem>
+                <MenuItem onClick={() => userSignOut()}>Log out</MenuItem>
               </MenuList>
             </Menu>
           )}
@@ -109,38 +144,31 @@ export default function Navbar({ session, appData }: { session: Session | null; 
                 variant='outline'
               />
               <MenuList>
-                {navItem.map((item, index) => {
-                  const profileUrl = `/profile${item.href}`;
-                  const baseUrl = `/p/${session?.user.name}${item.href}`;
-
-                  const href = currentUrl?.startsWith("/p/") ? baseUrl : profileUrl;
-
-                  return (
-                    <Fragment key={index}>
-                      <Link
-                        as={MenuItem}
-                        key={index}
-                        href={href}
+                {navItem.map((item, index) => (
+                  <Fragment key={index}>
+                    <Link
+                      as={MenuItem}
+                      key={index}
+                      href={`/p/${username}${item.href}`}
+                      _hover={{
+                        textDecoration: "none",
+                      }}
+                    >
+                      <MenuItem
+                        textTransform="uppercase"
+                        fontWeight={400} color="#3b82f6"
+                        fontSize="lg"
                         _hover={{
-                          textDecoration: "none",
+                          color: "#2563eb",
+                          transition: "color 0.3s ease"
                         }}
                       >
-                        <MenuItem
-                          textTransform="uppercase"
-                          fontWeight={400} color="#3b82f6"
-                          fontSize="lg"
-                          _hover={{
-                            color: "#2563eb",
-                            transition: "color 0.3s ease"
-                          }}
-                        >
-                          {item.name}
-                        </MenuItem>
-                      </Link>
-                      <MenuDivider />
-                    </Fragment>
-                  );
-                })}
+                        {item.name}
+                      </MenuItem>
+                    </Link>
+                    <MenuDivider />
+                  </Fragment>
+                ))}
               </MenuList>
             </Menu>
           )}

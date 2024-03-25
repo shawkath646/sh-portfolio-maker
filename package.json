@@ -13,13 +13,13 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
+    "@hookform/resolvers": "^3.3.4",
     "encoding": "^0.1.13",
-    "europa": "^6.0.0",
     "firebase-admin": "^12.0.0",
-    "framer-motion": "^11.0.14",
+    "framer-motion": "^11.0.15",
     "js-beautify": "^1.15.1",
     "marked": "^12.0.1",
-    "next": "14.1.3",
+    "next": "14.1.4",
     "next-auth": "^5.0.0-beta.15",
     "next-auth-provider-cloudburst-lab": "^1.0.3",
     "react": "^18",
@@ -27,15 +27,15 @@
     "react-hook-form": "^7.51.1",
     "react-icons": "^5.0.1",
     "react-markdown": "^9.0.1",
-    "react-photo-album": "^2.3.1",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
     "shas-app-controller": "^1.2.3",
-    "swiper": "^11.0.7"
+    "swiper": "^11.0.7",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/js-beautify": "^1.14.3",
-    "@types/react": "^18.2.66",
+    "@types/react": "^18.2.67",
     "typescript": "^5.4.2"
   }
 }

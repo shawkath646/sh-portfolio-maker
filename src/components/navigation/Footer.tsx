@@ -47,7 +47,7 @@ export default function Footer({ appData, brandData, authorData }: { appData?: A
                         <Text mb={2} fontWeight="semibold" color="#c2c6cc">Subscribe to our newsletter</Text>
                         <Flex w={["full", "full", 450]}>
                             <Input bg="#272a2e" outline="none" border="none" />
-                            <Button colorScheme="pink">SUBSCRIBE</Button>
+                            <Button isDisabled colorScheme="pink">SUBSCRIBE</Button>
                         </Flex>
                     </GridItem>
                 </SimpleGrid>

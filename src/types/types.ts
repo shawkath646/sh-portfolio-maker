@@ -1,21 +1,28 @@
 import { Timestamp } from "firebase-admin/firestore";
 
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export interface TimestampFieldValue {
     _seconds: number;
     _nanoseconds: number;
 }
 
+export interface ViewersType {
+    firstViewedOn: TimestampFieldValue | Timestamp | Date;
+    lastViewedOn: TimestampFieldValue | Timestamp | Date;
+    id: string;
+}
 
 export interface MetaDataType {
     firstName: string;
     lastName: string;
     joinedOn: Date | Timestamp;
     username: string;
-    views: number;
     isSuspended: boolean;
     id: string;
     contact: string;
+    viewers?: ViewersType[];
 }
 
 export interface IntroType {
@@ -24,41 +31,48 @@ export interface IntroType {
     description: string;
     title: string[];
     quickLinks: QuickLinksType[];
-    skillsCategories: SkillsCategoriesType[];
+    skillsCategories: SkillsCategoryType[];
     socialItems: string[];
 }
 
 export interface QuickLinksType {
     href: string;
     name: string;
+    color: string;
 }
 
-export interface SkillsCategoriesType {
+export interface SkillsCategoryType {
     categoryId: number;
     name: string;
 }
 
-export interface SkillItemsType {
+export interface SkillItemType {
     categoryId: number;
     icon: string;
     id: string;
-    index: number;
     name: string;
 }
 
-export interface FeaturedItemsType {
+export interface FeaturedItemType {
     description: string;
     icon: string;
     id: string;
-    index: number;
     title: string;
     color: string;
 }
 
+export interface MiniGalleryItemType {
+    src: string;
+    height: number;
+    width: number;
+    id: string;
+}
+
 export interface HomeDataType {
     intro: IntroType;
-    featuredItems: FeaturedItemsType[];
-    skillItems: SkillItemsType[];
+    featuredItems: FeaturedItemType[];
+    skillItems: SkillItemType[];
+    miniGalleryItems: MiniGalleryItemType[];
 }
 
 export interface EducationType {
@@ -66,7 +80,6 @@ export interface EducationType {
     field: string;
     grade: string;
     institute: string;
-    index: number;
     startsFrom: TimestampFieldValue | Timestamp | Date;
     endsOn: TimestampFieldValue | Timestamp | Date | null;
     type: string;
@@ -86,7 +99,6 @@ export interface WorkExperienceType {
     endsOn: TimestampFieldValue | Timestamp | Date | null;
     description: string;
     id: string;
-    index: number;
 }
 
 export interface VolunteeringType {
@@ -96,7 +108,6 @@ export interface VolunteeringType {
     startsFrom: TimestampFieldValue | Timestamp | Date;
     endsOn: TimestampFieldValue | Timestamp | Date | null;
     id: string;
-    index: number;
     description: string;
 }
 
@@ -104,7 +115,6 @@ export interface ReawardsType {
     title: string;
     issuedBy: string;
     issuedOn: TimestampFieldValue | Timestamp | Date;
-    index: number;
     id: string;
     description: string;
 }
@@ -145,6 +155,27 @@ export interface CollectionType {
 export interface GalleryDataType {
     collection: CollectionType[];
     galleryItems: GalleryItemType[];
+}
+
+export interface AddressType {
+    line1: string;
+    line2: string;
+}
+
+export interface EventsType {
+    timestamp: TimestampFieldValue | Timestamp | Date;
+    title: string;
+    description: string;
+}
+
+export interface PreferencesType {
+    dateOfBirth: TimestampFieldValue | Timestamp | Date | null;
+    interestedIn: string[];
+    languages: string[];
+    presentAddress: AddressType;
+    permanentAddress: AddressType;
+    maritalStatus: "single" | "married" | "divorced" | null;
+    events: EventsType[];
 }
 
 export interface ResponseType {
