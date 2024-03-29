@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import ProjectItemBox from "./ProjectItemBox";
 import getMetadataByUsername from "@/actions/database/metadata/getMetadataByUsername";
-import getProjectDataById from "@/actions/database/projects/getProjectDataById";
+import getProjectDetails from "@/actions/database/projects/getProjectDetails";
 
 export default async function Page({ params }: { params: { slug: string, projectId: string } }) {
 
@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: { slug: string, project
     if (!response) redirect("/not-found");
     const userId = response.id;
 
-    const projectsData = await getProjectDataById(userId, params.projectId);
+    const projectsData = await getProjectDetails(userId, params.projectId);
     if (!projectsData) redirect("/not-found");
 
     return <ProjectItemBox projectsData={projectsData} />

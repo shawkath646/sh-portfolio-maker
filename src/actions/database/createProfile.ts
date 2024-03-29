@@ -2,9 +2,9 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/app/auth";
 import { db } from "@/config/firebase.config";
-import introObject from "@/schema/introObject";
-import metadataObject from "@/schema/metadataObject";
-import preferencesObject from "@/schema/preferencesObject";
+import introObject from "@/schema/intro.object";
+import metadataObject from "@/schema/metadata.object";
+import preferencesObject from "@/schema/preferences.object";
 import { ResponseType } from "@/types/types";
 
 

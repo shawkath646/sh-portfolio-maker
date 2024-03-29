@@ -30,24 +30,15 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import introSchema from "@/schema/introSchema";
-import { IntroType, QuickLinksType } from "@/types/types";
+import ImageSelector from "@/components/imageSelector";
+import { introSchema, quickLinkSchema, socialItemSchema, titleSchema } from "@/schema/intro.schema";
+import { IntroType, PartialBy } from "@/types/types";
 import buttonColors from "@/JSONData/buttonColors.json";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 
-
-interface HomeFormType {
-    fullName: string;
-    description: string;
-    introPic?: string;
-    title: string[];
-    quickLinks: QuickLinksType[];
-    socialItems: string[];
-}
 
 
 const ProfileIntro = ({ introData }: { introData: IntroType }) => {
@@ -62,7 +53,7 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
         reset,
         setError,
         formState: { errors, isSubmitting },
-    } = useForm<HomeFormType>({
+    } = useForm<PartialBy<IntroType, "skillsCategories">>({
         defaultValues: {
             fullName: introData.fullName,
             description: introData.description,
@@ -74,7 +65,7 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
         resolver: yupResolver(introSchema),
     });
 
-    const onSubmit: SubmitHandler<HomeFormType> = async (data) => {
+    const onSubmit: SubmitHandler<PartialBy<IntroType, "skillsCategories">> = async (data) => {
         console.log(data);
     }
 
@@ -92,81 +83,13 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
                         <Textarea size="sm" {...register("description")} resize="none" />
                         <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
                     </FormControl>
-                    <Controller
-                        name="introPic"
-                        defaultValue=""
+                    <ImageSelector
+                        clearErrors={clearErrors}
                         control={control}
-                        render={({ field }) => {
-                            const fileInputRef = useRef<HTMLInputElement | null>(null);
-                            return (
-                                <FormControl as={GridItem} isInvalid={!!errors.introPic}>
-                                    <FormLabel>Intro Picture:</FormLabel>
-                                    <Stack alignItems="center" gap={3} justifyContent="center">
-                                        {field.value ? (
-                                            <Image
-                                                src={field.value}
-                                                alt="intro picture"
-                                                height={60}
-                                                width={60}
-                                                style={{
-                                                    width: "60px",
-                                                    height: "60px",
-                                                    borderRadius: "100%"
-                                                }}
-                                            />
-                                        ) : (
-                                            <Text fontSize="sm" color="#64748b">No picture selected</Text>
-                                        )}
-                                        <ButtonGroup>
-                                            <Button
-                                                size="sm"
-                                                onClick={() => {
-                                                    if (fileInputRef.current) fileInputRef.current.click();
-                                                }}
-                                            >
-                                                Select picture
-                                            </Button>
-                                            {field.value && (
-                                                <Button
-                                                    size="sm"
-                                                    colorScheme="red"
-                                                    onClick={() => field.onChange("")}
-                                                >
-                                                    Remove
-                                                </Button>
-                                            )}
-                                        </ButtonGroup>
-                                    </Stack>
-                                    <Input
-                                        type="file"
-                                        ref={fileInputRef}
-                                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                            const files = event.target.files;
-
-                                            clearErrors("introPic");
-
-                                            if (!files || files.length === 0) return;
-                                            const file = files[0];
-
-                                            if (file.size > 3 * 1024 * 1024) {
-                                                setError("introPic", { message: "File size can't exceed 3MB" });
-                                                return;
-                                            }
-
-                                            const reader = new FileReader();
-                                            reader.onload = () => {
-                                                const base64 = reader.result;
-                                                field.onChange(base64);
-                                            };
-                                            reader.readAsDataURL(file);
-                                        }}
-                                        accept="image/*"
-                                        hidden
-                                    />
-                                    <FormErrorMessage>{errors.introPic?.message}</FormErrorMessage>
-                                </FormControl>
-                            )
-                        }}
+                        error={errors.introPic}
+                        name="introPic"
+                        setError={setError}
+                        label="Intro Picture"
                     />
                     <Controller
                         name="title"
@@ -215,27 +138,18 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
                                             onClick={() => {
                                                 if (titleRef.current) {
                                                     const titleValue = titleRef.current.value;
-
                                                     clearErrors("title");
-
-                                                    if (!titleValue) {
-                                                        setError("title", { message: "Title is required" });
+                                                    if (field.value.includes(titleValue)) {
+                                                        setError("title", { message: "Item already exists" });
+                                                        return;
+                                                    }
+                                                    if (field.value.length >= 10) {
+                                                        setError("title", { message: "Maximum item 10 reached" });
                                                         return;
                                                     }
 
-                                                    const schema = yup.object().shape({
-                                                        title: yup.string().required("Title is required")
-                                                            .min(3, "Minimum 3 character required")
-                                                            .max(50, "Maximum 50 character allowed"),
-                                                    });
-
                                                     try {
-                                                        schema.validateSync({ title: titleValue });
-
-                                                        if (field.value.length >= 8) {
-                                                            setError("title", { message: "Maximum title reached!" });
-                                                            return;
-                                                        }
+                                                        titleSchema.validateSync(titleValue);
 
                                                         field.onChange([...field.value, titleValue]);
                                                         titleRef.current.value = "";
@@ -293,20 +207,17 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
                                                     const socialItemValue = socialItemRef.current.value;
 
                                                     clearErrors("socialItems");
-
-                                                    const schema = yup.object().shape({
-                                                        socialItem: yup.string().required("Social item is required").url("Invalid URL detected")
-                                                    });
+                                                    if (field.value.includes(socialItemValue)) {
+                                                        setError("socialItems", { message: "Item already exists" });
+                                                        return;
+                                                    }
+                                                    if (field.value.length >= 10) {
+                                                        setError("socialItems", { message: "Maximum item 10 reached" });
+                                                        return;
+                                                    }
 
                                                     try {
-                                                        await schema.validate({
-                                                            socialItem: socialItemValue
-                                                        });
-
-                                                        if (field.value.length >= 10) {
-                                                            setError("socialItems", { message: "Maximum social item reached!" });
-                                                            return;
-                                                        }
+                                                        await socialItemSchema.validate(socialItemValue);
 
                                                         field.onChange([...field.value, socialItemValue]);
                                                         socialItemRef.current.value = "";
@@ -385,34 +296,26 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
 
                                                         clearErrors("quickLinks");
 
-                                                        const schema = yup.object().shape({
-                                                            quickLinkName: yup.string()
-                                                                .required("Name is required")
-                                                                .min(3, "Minimum 3 character required")
-                                                                .max(15, "Maximum 15 character allowed"),
-                                                            quickLinkHref: yup.string().url("Invalid URL detected").required("URL is required"),
-                                                            selectedColor: yup.string().required("Button color is required")
-                                                        });
+
+                                                        const quickLinkItem = {
+                                                            name: quickLinkNameValue,
+                                                            href: quickLinkHrefValue,
+                                                            color: selectedColor
+                                                        };
+
+                                                        if (field.value.includes(quickLinkItem)) {
+                                                            setError("quickLinks", { message: "Item already exists" });
+                                                            return;
+                                                        }
+                                                        if (field.value.length >= 10) {
+                                                            setError("quickLinks", { message: "Maximum item 10 reached" });
+                                                            return;
+                                                        }
 
                                                         try {
-                                                            await schema.validate({
-                                                                quickLinkName: quickLinkNameValue,
-                                                                quickLinkHref: quickLinkHrefValue,
-                                                                selectedColor: selectedColor
-                                                            });
+                                                            await quickLinkSchema.validate(quickLinkItem);
 
-                                                            if (field.value.length >= 10) {
-                                                                setError("quickLinks", { message: "Maximum quick link reached!" });
-                                                                return;
-                                                            }
-
-                                                            const object = {
-                                                                name: quickLinkNameValue,
-                                                                href: quickLinkHrefValue,
-                                                                color: selectedColor
-                                                            };
-
-                                                            field.onChange([...field.value, object]);
+                                                            field.onChange([...field.value, quickLinkItem]);
                                                             quickLinkNameRef.current.value = "";
                                                             quickLinkHrefRef.current.value = "";
                                                             setColor("");

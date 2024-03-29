@@ -75,7 +75,7 @@ export interface HomeDataType {
     miniGalleryItems: MiniGalleryItemType[];
 }
 
-export interface EducationType {
+export interface EducationItemType {
     degree: string;
     field: string;
     grade: string;
@@ -87,7 +87,7 @@ export interface EducationType {
     description: string;
 }
 
-export interface WorkExperienceType {
+export interface WorkExperienceItemType {
     companyName: string;
     role: string;
     skills: string[];
@@ -101,7 +101,7 @@ export interface WorkExperienceType {
     id: string;
 }
 
-export interface VolunteeringType {
+export interface VolunteeringItemType {
     organization: string;
     role: string;
     purpose: string;
@@ -111,7 +111,7 @@ export interface VolunteeringType {
     description: string;
 }
 
-export interface ReawardsType {
+export interface ReawardAndAchievementItemType {
     title: string;
     issuedBy: string;
     issuedOn: TimestampFieldValue | Timestamp | Date;
@@ -120,13 +120,13 @@ export interface ReawardsType {
 }
 
 export interface PortfolioDataType {
-    education: EducationType[];
-    workExperience: WorkExperienceType[];
-    volunteering: VolunteeringType[];
-    reawards: ReawardsType[];
+    education: EducationItemType[];
+    workExperience: WorkExperienceItemType[];
+    volunteering: VolunteeringItemType[];
+    reawards: ReawardAndAchievementItemType[];
 }
 
-export interface ProjectsDataType {
+export interface ProjectItemType {
     id: string;
     name: string;
     description: string;
@@ -136,24 +136,24 @@ export interface ProjectsDataType {
     type: string;
     startsFrom: TimestampFieldValue | Timestamp | Date;
     endsOn: TimestampFieldValue | Timestamp | Date | null;
-    images: string[];
+    coverImage: string;
 }
 
 export interface GalleryItemType {
     id: string;
-    collectionId: number;
+    collectionId: string;
     height: number;
     width: number;
     src: string;
 }
 
-export interface CollectionType {
-    collectionId: number;
+export interface GalleryCollectionType {
+    collectionId: string;
     name: string;
 }
 
 export interface GalleryDataType {
-    collection: CollectionType[];
+    collection: GalleryCollectionType[];
     galleryItems: GalleryItemType[];
 }
 

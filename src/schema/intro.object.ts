@@ -1,4 +1,4 @@
-import { FeaturedItemsType, HomeDataType, IntroType } from "@/types/types";
+import { IntroType } from "@/types/types";
 
 const introObject: IntroType = {
     description: "",

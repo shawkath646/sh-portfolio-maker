@@ -48,7 +48,7 @@ const GalleryBox = ({ username, galleryData }: { username: string, galleryData: 
                                     </Box>
                                     <Heading fontSize={["2xl", "3xl"]}>{item.name}</Heading>
                                 </Flex>
-                                <Flex wrap="wrap" gap={5} justifyContent={["center", "space-between"]} >
+                                <Flex wrap="wrap" gap={5} justifyContent={["center", "space-between"]}>
                                     {filteredItems.map((photo, index) => (
                                         <Box
                                             key={index}

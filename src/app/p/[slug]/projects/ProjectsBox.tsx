@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { Box, Container, Flex, Text, Heading, GridItem, Grid, Icon, Center } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/next-js";
 import formatDate from "@/utils/formatDate";
-import { ProjectsDataType } from "@/types/types";
-import { FaGithub, FaExternalLinkAlt, FaFile } from "react-icons/fa";
+import { ProjectItemType } from "@/types/types";
+import { FaGithub, FaExternalLinkAlt, FaFile, FaRegImages } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IoWarning } from "react-icons/io5";
 
-const ProjectBox = ({ projectsData, username }: { projectsData: ProjectsDataType[], username: string }) => (
+const ProjectBox = ({ projectsData, username }: { projectsData: ProjectItemType[], username: string }) => (
     <Box
         as="main"
         w="full"
@@ -43,7 +43,13 @@ const ProjectBox = ({ projectsData, username }: { projectsData: ProjectsDataType
                         >
                             <Box p={4} borderWidth="1px" boxShadow="md" bg="#fff" rounded="xl">
                                 <Box position="relative" height="120px" mb={38}>
-                                    <Image src={item.images[0]} alt={`${item.name} cover`} fill style={{ borderRadius: "0.7rem" }} />
+                                    {item.coverImage ? (
+                                        <Image src={item.coverImage} alt={`${item.name} cover`} fill style={{ borderRadius: "0.7rem" }} />
+                                    ) : (
+                                        <Center position="absolute" w="full" h="full" bgColor="#e2e8f0">
+                                            <FaRegImages size={50} />
+                                        </Center>
+                                    )}
                                     <Box
                                         position="absolute"
                                         bottom={0}
@@ -91,7 +97,7 @@ const ProjectBox = ({ projectsData, username }: { projectsData: ProjectsDataType
                 </Grid>
             ) : (
                 <Box as={Center} minH="60vh" gap={3}>
-                    <IoWarning size={26}/>
+                    <IoWarning size={26} />
                     <Text fontSize="24px">No project item found.</Text>
                 </Box>
             )}

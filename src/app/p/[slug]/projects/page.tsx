@@ -1,7 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import getMetadataByUsername from "@/actions/database/metadata/getMetadataByUsername";
-import getProjectsData from "@/actions/database/projects/getProjectsData";
+import getProjectsData from "@/actions/database/projects/getProjectItems";
 import ProjectsBox from "./ProjectsBox";
 
 

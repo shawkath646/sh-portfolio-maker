@@ -15,7 +15,7 @@ const Education = ({ educationData }: { educationData: EducationType[] }) => (
             <Heading fontSize={["2xl", "3xl"]}>Education</Heading>
         </Flex>
         <SimpleGrid columns={[1, 1, 2, 2, 3]} gap={5}>
-            {educationData.sort((a, b) => a.index - b.index).map((item, index) => (
+            {educationData.map((item, index) => (
                 <Box
                     key={index}
                     as={motion.div}

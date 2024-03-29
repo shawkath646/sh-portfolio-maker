@@ -79,7 +79,7 @@ const ProfileSkills = ({ skillItems, skillsCategories }: { skillItems: SkillItem
                             render={({ field }) => {
                                 const categoryRef = useRef<HTMLInputElement | null>(null);
                                 return (
-                                    <FormControl isInvalid={!!errors.skillsCategories}>
+                                    <FormControl isInvalid={!!errors.skillsCategories} w="350px">
                                         <FormLabel>Category</FormLabel>
                                         <Input type="text" ref={categoryRef} />
                                         <FormErrorMessage>{errors.skillsCategories?.message}</FormErrorMessage>
