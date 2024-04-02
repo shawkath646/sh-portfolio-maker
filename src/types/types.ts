@@ -68,6 +68,12 @@ export interface MiniGalleryItemType {
     id: string;
 }
 
+export interface FileObjectType {
+    height: number;
+    width: number;
+    src: string;
+}
+
 export interface HomeDataType {
     intro: IntroType;
     featuredItems: FeaturedItemType[];
@@ -162,31 +168,28 @@ export interface AddressType {
     line2: string;
 }
 
-export interface EventsType {
+export interface EventItemType {
     timestamp: TimestampFieldValue | Timestamp | Date;
     title: string;
     description: string;
+    id: string;
 }
 
-export interface PreferencesType {
+export interface PerosnalDataType {
     dateOfBirth: TimestampFieldValue | Timestamp | Date | null;
     interestedIn: string[];
     languages: string[];
     presentAddress: AddressType;
     permanentAddress: AddressType;
-    maritalStatus: "single" | "married" | "divorced" | null;
-    events: EventsType[];
+    maritalStatus: string;
+}
+
+export interface PreferencesDataType {
+    personalData: PerosnalDataType;
+    eventItems: EventItemType[];
 }
 
 export interface ResponseType {
     status: "success" | "error" | "loading" | "registred";
     message: string;
-}
-
-export interface PicUploadType {
-    currentImage?: string;
-    onRemove: () => void;
-    onChange: () => void;
-    selectedImage: File | null;
-    label: string;
 }

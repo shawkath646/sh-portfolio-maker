@@ -4,7 +4,7 @@ import { auth } from "@/app/auth";
 import { db } from "@/config/firebase.config";
 import introObject from "@/schema/intro.object";
 import metadataObject from "@/schema/metadata.object";
-import preferencesObject from "@/schema/preferences.object";
+import personalDataObject from "@/schema/personalData.object";
 import { ResponseType } from "@/types/types";
 
 
@@ -39,10 +39,10 @@ const createProfile = async(): Promise<ResponseType> => {
         const addComma = (value: string, isLast?: boolean) => value ? `${value}${!isLast ? ', ' : ''}` : '';
         const addHyphen = (value: string) => value ? ` - ${value}` : '';
     
-        preferencesObject.presentAddress.line1 = `${addComma(presentAddress.street)}${addComma(presentAddress.city)}${addHyphen(presentAddress.postalCode)}`;
-        preferencesObject.presentAddress.line2 = `${addComma(presentAddress.state)}${addComma(presentAddress.country, true)}`;
-        preferencesObject.permanentAddress.line1 = `${addComma(permanentAddress.street)}${addComma(presentAddress.city)}${addHyphen(presentAddress.postalCode)}`;
-        preferencesObject.permanentAddress.line2 = `${addComma(permanentAddress.state)}${addComma(presentAddress.country, true)}`;
+        personalDataObject.presentAddress.line1 = `${addComma(presentAddress.street)}${addComma(presentAddress.city)}${addHyphen(presentAddress.postalCode)}`;
+        personalDataObject.presentAddress.line2 = `${addComma(presentAddress.state)}${addComma(presentAddress.country, true)}`;
+        personalDataObject.permanentAddress.line1 = `${addComma(permanentAddress.street)}${addComma(presentAddress.city)}${addHyphen(presentAddress.postalCode)}`;
+        personalDataObject.permanentAddress.line2 = `${addComma(permanentAddress.state)}${addComma(presentAddress.country, true)}`;
     }
     
 
@@ -56,14 +56,14 @@ const createProfile = async(): Promise<ResponseType> => {
     metadataObject.id = session.user.id;
     metadataObject.username = session.user.username;
 
-    if (session.user.dateOfBirth) preferencesObject.dateOfBirth = session.user.dateOfBirth;
+    if (session.user.dateOfBirth) personalDataObject.dateOfBirth = session.user.dateOfBirth;
     
     await db.collection("metadata").doc(session.user.id).set(metadataObject);
     await db.collection("home").doc(session.user.id).set(introObject);
     await db.collection("portfolio").doc(session.user.id).set({});
     await db.collection("projects").doc(session.user.id).set({});
     await db.collection("gallery").doc(session.user.id).set({ collection: [] });
-    await db.collection("preferences").doc(session.user.id).set(preferencesObject);
+    await db.collection("preferences").doc(session.user.id).set(personalDataObject);
 
     return redirect("/profile");
 };

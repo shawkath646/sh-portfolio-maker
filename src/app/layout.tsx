@@ -3,8 +3,8 @@ import { Poppins } from 'next/font/google';
 import { auth } from "./auth";
 import SHAS from "shas-app-controller";
 import ClientWrapper from '@/components/layout/ClientWrapper';
-import Navbar from '@/components/navigation/Navbar';
-import Footer from '@/components/navigation/Footer';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import getMetadataById from "@/actions/database/metadata/getMetadataById";
 import './globals.css';
 

@@ -11,7 +11,7 @@ const getHomeData = cache(async(userId: string): Promise<HomeDataType | null> =>
     const featuredItems = featuredItemsSnapshot.docs.map((doc) => doc.data() as FeaturedItemType);
     const skillItemsSnapshot = await introRef.ref.collection("skillItems").get();
     const skillItems = skillItemsSnapshot.docs.map((doc) => doc.data() as SkillItemType);
-    const miniGallerySnapshot = await introRef.ref.collection("miniGallery").get();
+    const miniGallerySnapshot = await introRef.ref.collection("miniGalleryItems").get();
     const miniGalleryItems = miniGallerySnapshot.docs.map((doc) => doc.data() as MiniGalleryItemType);
 
     return {

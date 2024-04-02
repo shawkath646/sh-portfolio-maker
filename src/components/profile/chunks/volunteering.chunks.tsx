@@ -15,23 +15,20 @@ import {
     Box,
     Text,
 } from "@chakra-ui/react";
-import ProfileEducationModal from "@/components/modal/education.modal";
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
 import formatDate from "@/utils/formatDate";
-import { EducationItemType } from "@/types/types";
-import { FaPlus } from "react-icons/fa";
-import { IoIosWarning } from "react-icons/io";
+import { VolunteeringItemType } from "@/types/types";
 
 const VolunteeringFrame: React.FC<{
-    item: EducationItemType,
+    item: VolunteeringItemType,
     index: number,
-    setEducationItemsArray: Dispatch<SetStateAction<EducationItemType[]>>;
-    setCurrentItem: Dispatch<SetStateAction<EducationItemType | null>>;
+    setVolunteeringItemsArray: Dispatch<SetStateAction<VolunteeringItemType[]>>;
+    setCurrentItem: Dispatch<SetStateAction<VolunteeringItemType | null>>;
     onModalOpen: () => void;
 }> = ({
     item,
     index,
-    setEducationItemsArray,
+    setVolunteeringItemsArray,
     setCurrentItem,
     onModalOpen
 }) => {
@@ -46,44 +43,36 @@ const VolunteeringFrame: React.FC<{
                     bg="#fff"
                     boxShadow="md"
                     borderRadius="lg"
-                    h="318px"
+                    h="260px"
                 >
                     <Popover>
                         <PopoverTrigger>
-                            <Text fontSize={["xl", "2xl"]} fontWeight="semibold" mb={2}>{`${index + 1}. ${item.degree}`}</Text>
+                            <Text fontSize={["xl", "2xl"]} fontWeight="semibold" mb={2}>{`${index + 1}. ${item.role}`}</Text>
                         </PopoverTrigger>
                         <PopoverContent>
                             <PopoverArrow />
                             <PopoverCloseButton />
-                            <PopoverHeader>Degree</PopoverHeader>
-                            <PopoverBody>{item.degree}</PopoverBody>
+                            <PopoverHeader>Role</PopoverHeader>
+                            <PopoverBody>{item.role}</PopoverBody>
                         </PopoverContent>
                     </Popover>
                     <Popover>
                         <PopoverTrigger>
                             <Text mb={2} isTruncated>
-                                <Text as="span" fontWeight="semibold">Institute:</Text>
-                                &nbsp;{item.institute}
+                                <Text as="span" fontWeight="semibold">Organization:</Text>
+                                &nbsp;{item.organization}
                             </Text>
                         </PopoverTrigger>
                         <PopoverContent>
                             <PopoverArrow />
                             <PopoverCloseButton />
-                            <PopoverHeader>Institute</PopoverHeader>
-                            <PopoverBody>{item.institute}</PopoverBody>
+                            <PopoverHeader>Organization:</PopoverHeader>
+                            <PopoverBody>{item.organization}</PopoverBody>
                         </PopoverContent>
                     </Popover>
                     <Text mb={2}>
-                        <Text as="span" fontWeight="semibold">Type:</Text>
-                        &nbsp;{item.type}
-                    </Text>
-                    <Text mb={2}>
-                        <Text as="span" fontWeight="semibold">Field of study:</Text>
-                        &nbsp;{item.field}
-                    </Text>
-                    <Text mb={2}>
-                        <Text as="span" fontWeight="semibold">Grade:</Text>
-                        &nbsp;{item.grade}
+                        <Text as="span" fontWeight="semibold">Purpose:</Text>
+                        &nbsp;{item.purpose}
                     </Text>
                     <Text mb={2}>
                         <Text as="span" fontWeight="semibold">Duration:</Text>
@@ -133,7 +122,7 @@ const VolunteeringFrame: React.FC<{
                     isOpen={isOpen}
                     onClose={onClose}
                     onDelete={() => {
-                        setEducationItemsArray(prev => prev.filter(prevItem => item !== prevItem));
+                        setVolunteeringItemsArray(prev => prev.filter(prevItem => item !== prevItem));
                     }}
                 />
             </>

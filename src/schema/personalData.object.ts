@@ -1,11 +1,10 @@
-import { PreferencesType } from "@/types/types";
+import { PerosnalDataType } from "@/types/types";
 
-const preferencesObject: PreferencesType = {
+const personalDataObject: PerosnalDataType = {
     dateOfBirth: null,
-    events: [],
     interestedIn: [],
     languages: [],
-    maritalStatus: null,
+    maritalStatus: "Hidden",
     permanentAddress: {
         line1: "",
         line2: "",
@@ -16,4 +15,4 @@ const preferencesObject: PreferencesType = {
     },
 };
 
-export default preferencesObject;
+export default personalDataObject;

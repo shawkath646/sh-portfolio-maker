@@ -12,7 +12,7 @@ import {
     Center
 } from "@chakra-ui/react";
 import ProfileWorkExperienceModal from "@/components/modal/workExperience.modal";
-import WorkExperienceFrame from "@/components/profile/portfolio.chunks/workExperience.chunks";
+import WorkExperienceFrame from "@/components/profile/chunks/workExperience.chunks";
 import { WorkExperienceItemType } from "@/types/types";
 import { FaPlus } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";

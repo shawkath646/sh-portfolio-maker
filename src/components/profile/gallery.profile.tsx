@@ -8,7 +8,7 @@ import {
     IconButton,
     Center,
 } from "@chakra-ui/react";
-import CollectionContainer from "@/components/profile/gallery.chunks/collectionContainer.chunks";
+import CollectionContainer from "@/components/profile/chunks/collectionContainer.chunks";
 import ProfileGalleryModal from "@/components/modal/gallery.modal";
 import { GalleryCollectionType, GalleryItemType, GalleryDataType } from "@/types/types";
 import { FaPlus } from "react-icons/fa";

@@ -15,14 +15,18 @@ import blankUserProfile from "@/assets/blank_user_profile.png";
 export default function Navbar({ session, appData }: { session: Session | null; appData: AppDataType }) {
 
   const currentUrl = usePathname();
+  const [hasBackground, setHasBackground] = useState(false);
   const [isLargerThan992] = useMediaQuery('(min-width: 992px)');
 
-  const showTabs = currentUrl?.startsWith("/p/");
-  const partsAfterP = currentUrl?.split("/p/")[1];
-  const username = partsAfterP?.split("/")[0];
+  let URLsuffix = "";
 
-  const [hasBackground, setHasBackground] = useState(false);
-
+  if (currentUrl?.startsWith("/p/")) {
+    const partsAfterP = currentUrl?.split("/p/")[1];
+    const username = partsAfterP?.split("/")[0];
+    URLsuffix = "/p/" + username;
+  }
+  else if (currentUrl.startsWith("/profile")) URLsuffix = "/profile";
+  
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -67,12 +71,12 @@ export default function Navbar({ session, appData }: { session: Session | null; 
           <Text fontSize={["lg", "lg", "xl"]}>{appData.appName}</Text>
         </Stack>
         <Stack direction="row" alignItems="center" spacing={5}>
-          {(showTabs && isLargerThan992) && (
+          {(URLsuffix && isLargerThan992) && (
             <Stack direction="row" alignItems="center" spacing={8}>
               {navItem.map((item, index) => (
                 <Link
                   key={index}
-                  href={`/p/${username}${item.href}`}
+                  href={URLsuffix + item.href}
                   textTransform="uppercase"
                   fontWeight={400} color="#3b82f6"
                   fontSize="lg"
@@ -135,7 +139,7 @@ export default function Navbar({ session, appData }: { session: Session | null; 
               </MenuList>
             </Menu>
           )}
-          {(showTabs && !isLargerThan992) && (
+          {(URLsuffix && !isLargerThan992) && (
             <Menu>
               <MenuButton
                 as={IconButton}
@@ -147,9 +151,8 @@ export default function Navbar({ session, appData }: { session: Session | null; 
                 {navItem.map((item, index) => (
                   <Fragment key={index}>
                     <Link
-                      as={MenuItem}
                       key={index}
-                      href={`/p/${username}${item.href}`}
+                      href={URLsuffix + item.href}
                       _hover={{
                         textDecoration: "none",
                       }}

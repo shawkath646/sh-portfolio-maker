@@ -1,13 +1,10 @@
 "use client";
 import { useRef, useState } from 'react';
 import { Box, Button, Center, Icon, Text, Input, FormErrorMessage, FormControl } from '@chakra-ui/react';
+import { FileObjectType } from '@/types/types';
 import { MdOutlineFileUpload } from 'react-icons/md';
 
-interface FileObjectType {
-    height: number;
-    width: number;
-    src: string;
-}
+
 
 const GalleryAddItem: React.FC<{
     onItemAdd: (fileObject: FileObjectType[]) => void,

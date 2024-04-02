@@ -1,32 +1,26 @@
 "use server";
 import { redirect } from "next/navigation";
 import { Session } from "next-auth";
-import { auth } from "../auth";
-import ProfileBox from "./ProfileBox";
+import { auth } from "@/app/auth";
+import { Container } from "@chakra-ui/react";
+import ProfileIntro from '@/components/profile/intro.profile';
+import ProfileFeatured from '@/components/profile/featured.profile';
+import ProfileSkills from '@/components/profile/skills.profile';
+import ProfileMiniGallery from '@/components/profile/miniGallery.profile';
 import getHomeData from "@/actions/database/home/getHomeData";
-import getPortfolioData from "@/actions/database/portfolio/getPortfolioData";
-import getProjectItems from "@/actions/database/projects/getProjectItems";
-import getGalleryData from "@/actions/database/gallery/getGalleryData";
-
 
 export default async function Page() {
 
     const session = await auth() as Session;
-    const userId = session.user.id as string;
-
-    const homeData = await getHomeData("pUpfSkG054JiE0FiwhtZ");
-    const portfolioData = await getPortfolioData("pUpfSkG054JiE0FiwhtZ");
-    const projectItems = await getProjectItems("pUpfSkG054JiE0FiwhtZ");
-    const galleryData = await getGalleryData("pUpfSkG054JiE0FiwhtZ");
-
-    if (!homeData || !portfolioData || !projectItems || !galleryData) redirect("/profile/create-user");
+    const homeData = await getHomeData(session.user.id as string);
+    if (!homeData) redirect("/profile/create-user");
 
     return (
-        <ProfileBox
-            homeData={homeData}
-            portfolioData={portfolioData}
-            projectItems={projectItems}
-            galleryData={galleryData}
-        />
+        <Container as="main" maxW={1536} mx="auto" pt={20} px={5} overflow="hidden" minH="75vh" mb={10}>
+            <ProfileIntro introData={homeData.intro} />
+            <ProfileFeatured featuredItems={homeData.featuredItems} />
+            <ProfileSkills skillItems={homeData.skillItems} skillsCategories={homeData.intro.skillsCategories} />
+            <ProfileMiniGallery miniGalleryItems={homeData.miniGalleryItems} />
+        </Container>
     );
 }

@@ -1,13 +1,13 @@
 import { useRef } from 'react';
 import { Stack, FormControl, FormLabel, Button, Input, FormErrorMessage, Image } from '@chakra-ui/react';
-import { Controller, Control, FieldError, UseFormClearErrors, UseFormSetError } from 'react-hook-form';
+import { Controller, Control, FieldError, Merge, UseFormClearErrors, UseFormSetError } from 'react-hook-form';
 
 interface ImageSelectorProps {
     label?: string;
     control: Control<any>;
     name: string;
     defaultValue?: string;
-    error?: FieldError;
+    error: Merge<FieldError, (FieldError | undefined)[]> | undefined;
     clearErrors: UseFormClearErrors<any>;
     setError: UseFormSetError<any>
 }

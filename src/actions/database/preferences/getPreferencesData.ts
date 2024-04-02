@@ -1,19 +1,25 @@
 import { cache } from "react";
 import { db } from "@/config/firebase.config";
 import timeStampToDate from "@/utils/timeStampToDate";
-import { PreferencesType } from "@/types/types";
+import { EventItemType, PerosnalDataType, PreferencesDataType } from "@/types/types";
 
-const getPreferencesData = cache(async (userId: string) => {
-    const preferencesRef = await db.collection("preferences").doc(userId).get();
-    if (!preferencesRef.exists) return null;
-    const data = preferencesRef.data() as PreferencesType;
-    if (data.dateOfBirth) data.dateOfBirth = timeStampToDate(data.dateOfBirth);
-    data.events.forEach(event => {
-        if (event.timestamp) {
-            event.timestamp = timeStampToDate(event.timestamp);
-        }
+const getPreferencesData = cache(async (userId: string): Promise<PreferencesDataType | null> => {
+    const preferencesDoc = await db.collection("preferences").doc(userId).get();
+    if (!preferencesDoc.exists) return null;
+    const personalData = preferencesDoc.data() as PerosnalDataType;
+    if (personalData.dateOfBirth) personalData.dateOfBirth = timeStampToDate(personalData.dateOfBirth);
+    const eventItemsSnapshot = await preferencesDoc.ref.collection("eventItems").get();
+
+    const eventItems = eventItemsSnapshot.docs.map((doc) => {
+        const eventItem = doc.data() as EventItemType;
+        eventItem.timestamp = timeStampToDate(eventItem.timestamp);
+        return eventItem;
     });
-    return data;
+
+    return {
+        personalData,
+        eventItems
+    }
 });
 
 export default getPreferencesData;

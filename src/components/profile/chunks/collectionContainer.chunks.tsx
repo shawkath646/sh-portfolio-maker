@@ -10,7 +10,7 @@ import {
     ButtonGroup,
 } from "@chakra-ui/react";
 import GalleryAddItem from "@/components/galleryAddItem";
-import ImageFrame from "@/components/profile/gallery.chunks/imageFrame.chunks";
+import ImageFrame from "@/components/profile/chunks/imageFrame.chunks";
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
 import { v4 as uuidv4 } from 'uuid';
 import { GalleryCollectionType, GalleryItemType } from "@/types/types";

@@ -15,12 +15,9 @@ import {
     Box,
     Text,
 } from "@chakra-ui/react";
-import ProfileEducationModal from "@/components/modal/education.modal";
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
 import formatDate from "@/utils/formatDate";
 import { EducationItemType } from "@/types/types";
-import { FaPlus } from "react-icons/fa";
-import { IoIosWarning } from "react-icons/io";
 
 const EducationFrame: React.FC<{
     item: EducationItemType,

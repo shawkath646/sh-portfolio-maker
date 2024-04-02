@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useRef, useState } from "react";
 import {
     Box,
@@ -10,14 +9,12 @@ import {
     FormErrorMessage,
     FormLabel,
     GridItem,
-    IconButton,
     Input,
     Menu,
     MenuButton,
     MenuItem,
     MenuList,
     SimpleGrid,
-    Stack,
     Text,
     Textarea,
     Modal,
@@ -28,15 +25,17 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
+    useToast
 } from "@chakra-ui/react";
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
+import TextAddItem from "@/components/textAddItem";
 import ImageSelector from "@/components/imageSelector";
-import { introSchema, quickLinkSchema, socialItemSchema, titleSchema } from "@/schema/intro.schema";
+import { introSchema, quickLinkSchema } from "@/schema/intro.schema";
+import { updateIntroData } from "@/actions/database/home/updateIntroData";
 import { IntroType, PartialBy } from "@/types/types";
 import buttonColors from "@/JSONData/buttonColors.json";
 import { IoIosArrowDown } from "react-icons/io";
-import { MdDelete } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 
 
@@ -65,14 +64,21 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
         resolver: yupResolver(introSchema),
     });
 
+    const toast = useToast();
+
     const onSubmit: SubmitHandler<PartialBy<IntroType, "skillsCategories">> = async (data) => {
-        console.log(data);
-    }
+        const response = updateIntroData(data);
+        toast.promise(response, {
+            success: { title: 'Data updated successfully' },
+            error: { title: 'Something wrong', description: '' },
+            loading: { title: 'Data updating...' },
+        });
+    };
 
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <SimpleGrid columns={[1, 1, 2, 2, 3]} gap={5}>
+                <SimpleGrid columns={[1, 1, 2, 2, 3]} gap={4}>
                     <FormControl as={GridItem} isInvalid={!!errors.fullName}>
                         <FormLabel>Full Name:</FormLabel>
                         <Input type="text" {...register("fullName")} />
@@ -91,149 +97,25 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
                         setError={setError}
                         label="Intro Picture"
                     />
-                    <Controller
+                    <TextAddItem
+                        clearErrors={clearErrors}
+                        control={control}
+                        error={errors.title}
                         name="title"
-                        control={control}
-                        render={({ field }) => {
-                            const titleRef = useRef<HTMLInputElement | null>(null);
-                            return (
-                                <FormControl as={GridItem} isInvalid={!!errors.title}>
-                                    <FormLabel>Title:</FormLabel>
-                                    {field.value.length > 0 ? field.value.map((item, index) => (
-                                        <Flex
-                                            key={index}
-                                            py={1}
-                                            px={2}
-                                            justifyContent="space-between"
-                                            alignItems="center"
-                                            bgColor="#f1f5f9"
-                                            rounded="md"
-                                            mb={2}
-                                        >
-                                            <Text fontSize="sm" isTruncated>{item}</Text>
-                                            <IconButton
-                                                icon={<MdDelete size={20} />}
-                                                aria-label="Add title"
-                                                variant="none"
-                                                h={6}
-                                                w={6}
-                                                color="#f43f5e"
-                                                _hover={{
-                                                    color: "#e11d48",
-                                                    transition: "color 0.3s ease",
-                                                }}
-                                                onClick={() => {
-                                                    const filteredValue = field.value.filter(title => title !== item);
-                                                    field.onChange(filteredValue);
-                                                }}
-                                            />
-                                        </Flex>
-                                    )) : (
-                                        <Text fontSize="sm" color="#64748b">No title added</Text>
-                                    )}
-                                    <Flex alignItems="center" mt={2} gap={3}>
-                                        <Input type="text" size="sm" ref={titleRef} />
-                                        <Button
-                                            size="sm"
-                                            onClick={() => {
-                                                if (titleRef.current) {
-                                                    const titleValue = titleRef.current.value;
-                                                    clearErrors("title");
-                                                    if (field.value.includes(titleValue)) {
-                                                        setError("title", { message: "Item already exists" });
-                                                        return;
-                                                    }
-                                                    if (field.value.length >= 10) {
-                                                        setError("title", { message: "Maximum item 10 reached" });
-                                                        return;
-                                                    }
-
-                                                    try {
-                                                        titleSchema.validateSync(titleValue);
-
-                                                        field.onChange([...field.value, titleValue]);
-                                                        titleRef.current.value = "";
-                                                    } catch (error: any) {
-                                                        setError("title", { message: error.message });
-                                                    }
-                                                }
-                                            }}
-                                        >
-                                            Add
-                                        </Button>
-                                    </Flex>
-                                    <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
-                                </FormControl>
-                            )
-                        }}
+                        setError={setError}
+                        label="Title"
+                        maxItems={15}
+                        maxLength={50}
                     />
-                    <Controller
-                        name="socialItems"
+                    <TextAddItem
+                        clearErrors={clearErrors}
                         control={control}
-                        render={({ field }) => {
-                            const socialItemRef = useRef<HTMLInputElement | null>(null);
-                            return (
-                                <FormControl as={GridItem} isInvalid={!!errors.socialItems}>
-                                    <FormLabel>Social Items:</FormLabel>
-                                    {field.value.length > 0 ? field.value.map((item, index) => (
-                                        <Flex key={index} py={1} px={2} justifyContent="space-between" alignItems="center" bgColor="#f1f5f9" rounded="md" mb={2}>
-                                            <Text fontSize="sm" isTruncated>{item}</Text>
-                                            <IconButton
-                                                icon={<MdDelete size={20} />}
-                                                aria-label="Add social item"
-                                                variant="none"
-                                                h={6}
-                                                w={6}
-                                                color="#f43f5e"
-                                                _hover={{
-                                                    color: "#e11d48",
-                                                    transition: "color 0.3s ease",
-                                                }}
-                                                onClick={() => {
-                                                    const filteredValue = field.value.filter(title => title !== item);
-                                                    field.onChange(filteredValue);
-                                                }}
-                                            />
-                                        </Flex>
-                                    )) : (
-                                        <Text fontSize="sm" color="#64748b">No social item added.</Text>
-                                    )}
-                                    <Flex alignItems="center" mt={2} gap={3}>
-                                        <Input type="text" size="sm" ref={socialItemRef} />
-                                        <Button
-                                            size="sm"
-                                            onClick={async () => {
-                                                if (socialItemRef.current) {
-                                                    const socialItemValue = socialItemRef.current.value;
-
-                                                    clearErrors("socialItems");
-                                                    if (field.value.includes(socialItemValue)) {
-                                                        setError("socialItems", { message: "Item already exists" });
-                                                        return;
-                                                    }
-                                                    if (field.value.length >= 10) {
-                                                        setError("socialItems", { message: "Maximum item 10 reached" });
-                                                        return;
-                                                    }
-
-                                                    try {
-                                                        await socialItemSchema.validate(socialItemValue);
-
-                                                        field.onChange([...field.value, socialItemValue]);
-                                                        socialItemRef.current.value = "";
-                                                    } catch (error: any) {
-                                                        setError("socialItems", { message: error.message });
-                                                    }
-                                                }
-                                            }}
-                                        >
-                                            Add
-                                        </Button>
-                                    </Flex>
-                                    <FormErrorMessage>{errors.socialItems?.message}</FormErrorMessage>
-                                </FormControl>
-                            )
-                        }}
+                        error={errors.socialItems}
+                        name="socialItems"
+                        setError={setError}
+                        fieldType="url"
+                        label="Social Links"
+                        maxItems={12}
                     />
                     <Controller
                         name="quickLinks"
@@ -295,7 +177,6 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
                                                         const quickLinkHrefValue = quickLinkHrefRef.current.value;
 
                                                         clearErrors("quickLinks");
-
 
                                                         const quickLinkItem = {
                                                             name: quickLinkNameValue,

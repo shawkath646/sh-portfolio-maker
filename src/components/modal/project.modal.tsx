@@ -6,7 +6,6 @@ import {
     Input,
     Button,
     FormErrorMessage,
-    GridItem,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -16,13 +15,15 @@ import {
     Checkbox,
     SimpleGrid,
 } from "@chakra-ui/react";
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import ImageSelector from "@/components/imageSelector";
 import FileSelector from "@/components/fileSelector";
+import DateSelector from "@/components/dateSelector";
 import { projectSchema } from "@/schema/project.schema";
 import { v4 as uuidv4 } from 'uuid';
 import { ProjectItemType } from "@/types/types";
+
 
 
 export interface ProjectItemFormType {
@@ -170,37 +171,19 @@ const ProfileProjectModal: React.FC<{
                                 <FormErrorMessage>{errors.liveLink?.message}</FormErrorMessage>
                             </FormControl>
                             <SimpleGrid columns={2} gap={2} my={2}>
-                                <GridItem as={FormControl} isInvalid={!!errors.startsFrom}>
-                                    <FormLabel>Starts From:</FormLabel>
-                                    <Controller
-                                        name="startsFrom"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <Input
-                                                type="date"
-                                                value={field.value.toISOString().split('T')[0]}
-                                                onChange={event => field.onChange(new Date(event.target.value))}
-                                            />
-                                        )}
-                                    />
-                                    <FormErrorMessage>{errors.startsFrom?.message}</FormErrorMessage>
-                                </GridItem>
+                                <DateSelector
+                                    control={control}
+                                    error={errors.startsFrom}
+                                    name="startsFrom"
+                                    label="Starts From"
+                                />
                                 {!watch("isPresent") && (
-                                    <GridItem as={FormControl} isInvalid={!!errors.endsOn}>
-                                        <FormLabel>Ends On:</FormLabel>
-                                        <Controller
-                                            name="endsOn"
-                                            control={control}
-                                            render={({ field }) => (
-                                                <Input
-                                                    type="date"
-                                                    value={field.value.toISOString().split('T')[0]}
-                                                    onChange={event => field.onChange(new Date(event.target.value))}
-                                                />
-                                            )}
-                                        />
-                                        <FormErrorMessage>{errors.endsOn?.message}</FormErrorMessage>
-                                    </GridItem>
+                                    <DateSelector
+                                        control={control}
+                                        error={errors.endsOn}
+                                        name="endsOn"
+                                        label="Ends On"
+                                    />
                                 )}
                             </SimpleGrid>
                             <Checkbox mb={2} {...register("isPresent")}>Present</Checkbox>

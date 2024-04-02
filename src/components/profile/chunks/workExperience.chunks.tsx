@@ -84,25 +84,25 @@ const WorkExperienceFrame: React.FC<{
                         <Text as="span" fontWeight="semibold">Duration:</Text>
                         &nbsp;{formatDate(item.startsFrom as Date)} - {item.endsOn ? formatDate(item.endsOn as Date) : "Present"}
                     </Text>
-                    {item.description ? (
-                        <Popover>
-                            <PopoverTrigger>
-                                <Text mb={2} isTruncated>
-                                    <Text as="span" fontWeight="semibold">Description:</Text>
-                                    &nbsp;{item.description}
-                                </Text>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                <PopoverArrow />
-                                <PopoverCloseButton />
-                                <PopoverHeader>Description</PopoverHeader>
-                                <PopoverBody>{item.description}</PopoverBody>
-                            </PopoverContent>
-                        </Popover>
-                    ) : (
-                        <Box w="full" h="23px" mb={2}></Box>
-                    )}
-                    {item.skills.length > 0 ? (
+                    <Box w="full" h="25px" mb={2}>
+                        {item.description && (
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Text mb={2} isTruncated>
+                                        <Text as="span" fontWeight="semibold">Description:</Text>
+                                        &nbsp;{item.description}
+                                    </Text>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <PopoverArrow />
+                                    <PopoverCloseButton />
+                                    <PopoverHeader>Description</PopoverHeader>
+                                    <PopoverBody>{item.description}</PopoverBody>
+                                </PopoverContent>
+                            </Popover>
+                        )}
+                    </Box>
+                    <Box h="22px" mb={2}>
                         <Popover>
                             <PopoverTrigger>
                                 <Text isTruncated>
@@ -126,9 +126,7 @@ const WorkExperienceFrame: React.FC<{
                                 </PopoverBody>
                             </PopoverContent>
                         </Popover>
-                    ) : (
-                        <Box w="full" h="18px" mb={2}></Box>
-                    )}
+                    </Box>
                     <ButtonGroup w="full" justifyContent="flex-end">
                         <Button
                             variant="outline"

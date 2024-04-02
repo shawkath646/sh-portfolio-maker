@@ -13,87 +13,77 @@ import {
     ModalBody,
     ModalCloseButton,
     Textarea,
-    useBoolean,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import DateSelector from "@/components/dateSelector";
-import { reawardAndAchievementSchema } from "@/schema/reaward&achievement.schema";
-import addReawardAndAchievementItem from "@/actions/database/portfolio/addReawardAndAchievementItem";
+import { eventItemSchema } from "@/schema/event.schema";
 import { v4 as uuidv4 } from 'uuid';
-import { ReawardAndAchievementItemType } from "@/types/types";
+import { EventItemType } from "@/types/types";
 
 
-interface ReawardAndAchievementItemFormType {
+interface EducationItemFormType {
     title: string;
-    issuedBy: string;
-    issuedOn: Date;
     description: string;
+    timestamp: Date;
 }
 
-const ProfileReawardAndAchievementModal: React.FC<{
-    currentItem: ReawardAndAchievementItemType | null,
-    setCurrentItem: Dispatch<SetStateAction<ReawardAndAchievementItemType | null>>,
+const ProfileEventModal: React.FC<{
+    currentItem: EventItemType | null,
+    setCurrentItem: Dispatch<SetStateAction<EventItemType | null>>,
     isOpen: boolean,
     onClose: () => void,
-    setReawardAndAchievementArray: Dispatch<SetStateAction<ReawardAndAchievementItemType[]>>
+    setEventItemsArray: Dispatch<SetStateAction<EventItemType[]>>
 }> = ({
     currentItem,
     setCurrentItem,
     isOpen,
     onClose,
-    setReawardAndAchievementArray
+    setEventItemsArray
 }) => {
-
-        const [isLoading, setLoading] = useBoolean(false);
-
         const {
             control,
             handleSubmit,
             reset,
             register,
             formState: { errors },
-        } = useForm<ReawardAndAchievementItemFormType>({
+        } = useForm<EducationItemFormType>({
             defaultValues: {
-                issuedOn: new Date,
+                timestamp: new Date,
             },
-            resolver: yupResolver(reawardAndAchievementSchema)
+            resolver: yupResolver(eventItemSchema)
         });
 
-        const onSubmit: SubmitHandler<ReawardAndAchievementItemFormType> = async (data) => {
-            setLoading.on();
+        const onSubmit: SubmitHandler<EducationItemFormType> = (data) => {
+
             if (currentItem) {
-                const reawardAndAchievementObject: ReawardAndAchievementItemType = {
+                const eventObject: EventItemType = {
                     ...data,
                     id: currentItem.id,
                 };
-                await addReawardAndAchievementItem(reawardAndAchievementObject);
-                setReawardAndAchievementArray(prev => {
+                setEventItemsArray(prev => {
                     const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
-                    existingItem.push(reawardAndAchievementObject);
+                    existingItem.push(eventObject);
                     return existingItem;
                 });
             } else {
-                const reawardAndAchievementObject: ReawardAndAchievementItemType = {
+                const eventObject: EventItemType = {
                     ...data,
                     id: uuidv4(),
                 };
-                await addReawardAndAchievementItem(reawardAndAchievementObject);
-                setReawardAndAchievementArray(prev => [...prev, reawardAndAchievementObject]);
+                setEventItemsArray(prev => [...prev, eventObject]);
             }
 
             onClose();
             setCurrentItem(null);
             reset();
-            setLoading.off();
         };
 
         useEffect(() => {
             reset({
-                description: currentItem?.description || "",
-                issuedBy: currentItem?.issuedBy || "",
-                issuedOn: currentItem?.issuedOn as Date || new Date,
-                title: currentItem?.title || ""
+                description: currentItem?.description,
+                timestamp: currentItem?.timestamp as Date || new Date,
+                title: currentItem?.title
             });
         }, [currentItem]);
 
@@ -109,26 +99,21 @@ const ProfileReawardAndAchievementModal: React.FC<{
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>{currentItem ? "Edit" : "Add"} reaward & achievement</ModalHeader>
+                    <ModalHeader>{currentItem ? "Edit" : "Add"} Life Event</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <form onSubmit={handleSubmit(onSubmit)}>
+                            <DateSelector
+                                control={control}
+                                error={errors.timestamp}
+                                name="timestamp"
+                                label="Happend On"
+                            />
                             <FormControl isInvalid={!!errors.title}>
-                                <FormLabel>Title:</FormLabel>
+                                <FormLabel>Degree:</FormLabel>
                                 <Input type="text" {...register("title")} />
                                 <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
                             </FormControl>
-                            <FormControl isInvalid={!!errors.issuedBy}>
-                                <FormLabel>Issued By:</FormLabel>
-                                <Input type="text" {...register("issuedBy")} />
-                                <FormErrorMessage>{errors.issuedBy?.message}</FormErrorMessage>
-                            </FormControl>
-                            <DateSelector
-                                control={control}
-                                error={errors.issuedOn}
-                                name="issuedOn"
-                                label="Issued On"
-                            />
                             <FormControl isInvalid={!!errors.description}>
                                 <FormLabel>Description:</FormLabel>
                                 <Textarea {...register("description")} resize="none" />
@@ -139,8 +124,6 @@ const ProfileReawardAndAchievementModal: React.FC<{
                                 w="full"
                                 mt={3}
                                 colorScheme='purple'
-                                isLoading={isLoading}
-                                loadingText={currentItem ? "Updating..." : "Adding..."}
                             >
                                 {currentItem ? "Update" : "Add"}
                             </Button>
@@ -151,4 +134,4 @@ const ProfileReawardAndAchievementModal: React.FC<{
         );
     }
 
-export default ProfileReawardAndAchievementModal;
+export default ProfileEventModal;

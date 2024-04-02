@@ -18,10 +18,5 @@ const quickLinkSchema = yup.object().shape({
     color: yup.string().required("Button color is required")
 });
 
-const socialItemSchema = yup.string().required("Social item is required").url("Invalid URL detected");
 
-const titleSchema = yup.string().required("Title is required")
-    .min(3, "Minimum 3 character required")
-    .max(50, "Maximum 50 character allowed");
-
-export { introSchema, quickLinkSchema, socialItemSchema, titleSchema };
+export { introSchema, quickLinkSchema };

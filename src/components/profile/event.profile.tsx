@@ -11,37 +11,37 @@ import {
     IconButton,
     Center
 } from "@chakra-ui/react";
-import ProfileReawardAndAchievementModal from "@/components/modal/reaward&achievement.modal";
-import ReawardAndAchievementFrame from "@/components/profile/chunks/reaward&achievementFrame.chunks";
-import { ReawardAndAchievementItemType } from "@/types/types";
+import ProfileEventModal from "@/components/modal/event.modal";
+import EventFrame from "@/components/profile/chunks/eventFrame.chunks";
+import { EventItemType } from "@/types/types";
 import { FaPlus } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
 
 
-const ProfileReawardAndAchevement: React.FC<{ reawardAndAchievementItems: ReawardAndAchievementItemType[] }> = ({ reawardAndAchievementItems }) => {
 
-    const [reawardAndAchievementItemsArray, setReawardAndAchievementItemsArray] = useState<ReawardAndAchievementItemType[]>(reawardAndAchievementItems);
+const ProfileEvent: React.FC<{ eventItems: EventItemType[] }> = ({ eventItems }) => {
+
+    const [eventItemsArray, setEventItemsArray] = useState<EventItemType[]>(eventItems);
+    const [currentItem, setCurrentItem] = useState<EventItemType | null>(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [currentItem, setCurrentItem] = useState<ReawardAndAchievementItemType | null>(null);
 
     return (
         <>
             <Flex alignItems="center" justifyContent="space-between" mb={1} mt="35px">
-                <Heading as="h5" size="lg">Reaward & Achievement</Heading>
-                <IconButton aria-label="add reaward & achievement item" icon={<FaPlus />} onClick={onOpen} />
+                <Heading as="h5" size="lg">Life Events</Heading>
+                <IconButton aria-label="add education item" icon={<FaPlus />} onClick={onOpen} />
             </Flex>
             <Divider />
 
-            {reawardAndAchievementItemsArray.length > 0 ? (
+            {eventItemsArray.length > 0 ? (
                 <SimpleGrid flex="1" columns={[1, 1, 1, 2, 2, 3]} gap={4} mt={2}>
-                    {reawardAndAchievementItemsArray.map((item, index) => (
-                        <ReawardAndAchievementFrame
+                    {eventItemsArray.sort((a, b) => new Date(a.timestamp as Date).getTime() - new Date(b.timestamp as Date).getTime()).map((item, index) => (
+                        <EventFrame
                             key={index}
-                            index={index}
                             item={item}
                             onModalOpen={onOpen}
                             setCurrentItem={setCurrentItem}
-                            setReawardAndAchievementItemsArray={setReawardAndAchievementItemsArray}
+                            setEventItemsArray={setEventItemsArray}
                         />
                     ))}
                 </SimpleGrid>
@@ -53,15 +53,15 @@ const ProfileReawardAndAchevement: React.FC<{ reawardAndAchievementItems: Reawar
                     </Flex>
                 </Box>
             )}
-            <ProfileReawardAndAchievementModal
+            <ProfileEventModal
                 currentItem={currentItem}
                 isOpen={isOpen}
                 onClose={onClose}
                 setCurrentItem={setCurrentItem}
-                setReawardAndAchievementArray={setReawardAndAchievementItemsArray}
+                setEventItemsArray={setEventItemsArray}
             />
         </>
     );
 };
 
-export default ProfileReawardAndAchevement;
+export default ProfileEvent;

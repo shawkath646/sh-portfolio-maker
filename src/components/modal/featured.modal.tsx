@@ -16,6 +16,7 @@ import {
     ModalBody,
     ModalCloseButton,
     Select,
+    useToast
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -24,6 +25,7 @@ import { featuredItemSchema } from "@/schema/featured.schema";
 import { v4 as uuidv4 } from 'uuid';
 import { FeaturedItemType, PartialBy } from "@/types/types";
 import cardColors from "@/JSONData/cardColors.json";
+import updateFeaturedItem from "@/actions/database/home/addFeaturedItem";
 
 
 const ProfileFeaturedModal: React.FC<{
@@ -52,28 +54,40 @@ const ProfileFeaturedModal: React.FC<{
             resolver: yupResolver(featuredItemSchema)
         });
 
-        const onSubmit: SubmitHandler<PartialBy<FeaturedItemType, "id">> = (data) => {
-            if (currentItem) {
-                const educationObject: FeaturedItemType = {
-                    ...data,
-                    id: currentItem.id,
-                };
-                setFeaturedItemsArray(prev => {
-                    const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
-                    existingItem.push(educationObject);
-                    return existingItem;
-                });
-            } else {
-                const educationObject: FeaturedItemType = {
-                    ...data,
-                    id: uuidv4(),
-                };
-                setFeaturedItemsArray(prev => [...prev, educationObject]);
+        const toast = useToast();
+
+        const onSubmit: SubmitHandler<PartialBy<FeaturedItemType, "id">> = async(data) => {
+            const response = async() => {
+                if (currentItem) {
+                    const featuredObject: FeaturedItemType = {
+                        ...data,
+                        id: currentItem.id,
+                    };
+                    await updateFeaturedItem(featuredObject);
+                    setFeaturedItemsArray(prev => {
+                        const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
+                        existingItem.push(featuredObject);
+                        return existingItem;
+                    });
+                } else {
+                    const featuredObject: FeaturedItemType = {
+                        ...data,
+                        id: uuidv4(),
+                    };
+                    await updateFeaturedItem(featuredObject);
+                    setFeaturedItemsArray(prev => [...prev, featuredObject]);
+                }
+    
+                onClose();
+                setCurrentItem(null);
+                reset();
             }
 
-            onClose();
-            setCurrentItem(null);
-            reset();
+            toast.promise(response(), {
+                success: { title: 'Featured item added successfully' },
+                error: { title: 'Something wrong', },
+                loading: { title: 'Adding featured item...' },
+            });
         };
 
         useEffect(() => {

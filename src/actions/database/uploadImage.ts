@@ -1,22 +1,20 @@
-"use server";
 import { bucket } from "@/config/firebase.config";
 import { ResponseType } from "@/types/types";
-import deleteImageByURL from "./deleteImageByURL";
+import deleteImageByFileName from "./deleteImageByFileName";
 import MessagesList from "@/JSONData/MessagesList.json"
 
 interface ResponseExtendedType extends ResponseType {
     downloadURL: string;
 }
 
-export default async function uploadImage(base64: string, name?: string, oldImage?: string): Promise<ResponseExtendedType> {
+export default async function uploadImage(base64: string, fileName: string): Promise<ResponseExtendedType> {
 
     const base64Pattern = /^data:image\/(png|jpeg|jpg|gif);base64,(.+)$/;
 
     if (base64Pattern.test(base64)) {
-        if (oldImage) await deleteImageByURL(oldImage);
+        await deleteImageByFileName(fileName);
 
         const imageType = base64.split(';')[0].split(':')[1];
-        const imageFormat = base64.split(';')[0].split(':')[1].split('/')[1];
         const pureBase64 = base64.replace(/^data:image\/\w+;base64,/, '');
 
         const buffer = Buffer.from(pureBase64, 'base64');
@@ -30,7 +28,7 @@ export default async function uploadImage(base64: string, name?: string, oldImag
             downloadURL: ""
         }
 
-        const file = bucket.file(`${name || "image_undefined"}.${imageFormat}`);
+        const file = bucket.file(fileName);
 
         const expirationDate = new Date();
         expirationDate.setFullYear(expirationDate.getFullYear() + 100);

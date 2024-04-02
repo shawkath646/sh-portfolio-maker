@@ -10,7 +10,7 @@ import {
     Center,
 } from "@chakra-ui/react";
 import ProfileProjectModal from "@/components/modal/project.modal";
-import ProjectFrame from "@/components/profile/projects.chunks/projectFrame.chunks";
+import ProjectFrame from "@/components/profile/chunks/projectFrame.chunks";
 import { ProjectItemType } from "@/types/types";
 import { FaPlus } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";

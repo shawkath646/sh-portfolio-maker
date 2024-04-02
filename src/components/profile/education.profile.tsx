@@ -12,7 +12,7 @@ import {
     Center
 } from "@chakra-ui/react";
 import ProfileEducationModal from "@/components/modal/education.modal";
-import EducationFrame from "@/components/profile/portfolio.chunks/educationFrame.chunks";
+import EducationFrame from "@/components/profile/chunks/educationFrame.chunks";
 import { EducationItemType } from "@/types/types";
 import { FaPlus } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
@@ -33,7 +33,7 @@ const ProfileEducation: React.FC<{ educationItems: EducationItemType[] }> = ({ e
             <Divider />
 
             {educationItemsArray.length > 0 ? (
-                <SimpleGrid flex="1" columns={[1, 1, 1, 2, 2, 3]} gap={4} mt={2}>
+                <SimpleGrid columns={[1, 1, 1, 2, 2, 3]} gap={4} mt={2}>
                     {educationItemsArray.map((item, index) => (
                         <EducationFrame
                             key={index}
