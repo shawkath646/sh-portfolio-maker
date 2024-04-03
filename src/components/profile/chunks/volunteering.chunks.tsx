@@ -18,6 +18,7 @@ import {
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
 import formatDate from "@/utils/formatDate";
 import { VolunteeringItemType } from "@/types/types";
+import removeVolunteeringItem from "@/actions/database/portfolio/removeVolunteeringItem";
 
 const VolunteeringFrame: React.FC<{
     item: VolunteeringItemType,
@@ -121,7 +122,8 @@ const VolunteeringFrame: React.FC<{
                 <ItemDeleteModal
                     isOpen={isOpen}
                     onClose={onClose}
-                    onDelete={() => {
+                    onDelete={async() => {
+                        await removeVolunteeringItem(item.id);
                         setVolunteeringItemsArray(prev => prev.filter(prevItem => item !== prevItem));
                     }}
                 />

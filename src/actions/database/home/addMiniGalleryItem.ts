@@ -1,7 +1,7 @@
 "use server";
 import { auth } from "@/app/auth";
 import { db } from "@/config/firebase.config";
-import uploadImage from "../uploadImage";
+import uploadFile from "../uploadFile";
 import { MiniGalleryItemType, ResponseType } from "@/types/types";
 
 const addMiniGalleryItem = async (item: MiniGalleryItemType): Promise<ResponseType> => {
@@ -11,7 +11,7 @@ const addMiniGalleryItem = async (item: MiniGalleryItemType): Promise<ResponseTy
         message: 'Something went wrong with user session.'
     };
 
-    const { downloadURL } = await uploadImage(item.src, `miniGalleryItem-${item.id}`);
+    const { downloadURL } = await uploadFile(item.src, `miniGalleryItem-${item.id}`);
     item.src = downloadURL;
 
     await db.collection("home").doc(session.user.id).collection("miniGalleryItems").doc(item.id).set(item);

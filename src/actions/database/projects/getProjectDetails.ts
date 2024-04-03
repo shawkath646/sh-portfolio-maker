@@ -3,7 +3,6 @@ import { db } from "@/config/firebase.config";
 import { ProjectItemType } from "@/types/types";
 import timeStampToDate from "@/utils/timeStampToDate";
 
-
 const getProjectDetails= cache(async (userId: string, projectId: string) => {
     const docRef = await db.collection("projects").doc(userId).collection("projectItems").doc(projectId).get();
     if (!docRef.exists) return null;
@@ -20,4 +19,5 @@ const getProjectDetails= cache(async (userId: string, projectId: string) => {
     }
     return data;
 });
+
 export default getProjectDetails;

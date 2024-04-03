@@ -1,8 +1,9 @@
 "use server";
 import { redirect } from "next/navigation";
+import PortfolioBox from "./PortfolioBox";
 import getMetadataByUsername from "@/actions/database/metadata/getMetadataByUsername";
 import getPortfolioData from "@/actions/database/portfolio/getPortfolioData";
-import PortfolioBox from "./PortfolioBox";
+import addViewer from "@/actions/database/addViewer";
 
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -12,6 +13,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
     const portfolioData = await getPortfolioData(userId);
     if (!portfolioData) redirect("/not-found");
+
+    await addViewer(userId);
 
     return <PortfolioBox portfolioData={portfolioData} username={params.slug} />
 }

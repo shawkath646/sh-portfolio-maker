@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import PreferencesBox from "./PreferencesBox";
 import getMetadataByUsername from "@/actions/database/metadata/getMetadataByUsername";
 import getPreferencesData from "@/actions/database/preferences/getPreferencesData";
+import addViewer from "@/actions/database/addViewer";
 
 export default async function Page({ params }: { params: { slug: string } }) {
 
@@ -13,5 +14,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     const preferencesData = await getPreferencesData(userId);
     if (!preferencesData) redirect("/not-found");
 
-    return <PreferencesBox username={params.slug} preferencesData={preferencesData} />;
+    await addViewer(userId);
+
+    return <PreferencesBox username={params.slug} preferencesData={preferencesData} joinedOn={response.joinedOn as Date} profileViews={response.viewers} />;
 }

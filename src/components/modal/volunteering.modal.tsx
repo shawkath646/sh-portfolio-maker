@@ -15,7 +15,7 @@ import {
     Textarea,
     Checkbox,
     SimpleGrid,
-    useBoolean,
+    useToast,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -50,15 +50,13 @@ const ProfileVolunteeringModal: React.FC<{
     setEducationItemsArray
 }) => {
 
-        const [isLoading, setLoading] = useBoolean(false);
-
         const {
             control,
             handleSubmit,
             reset,
             watch,
             register,
-            formState: { errors },
+            formState: { errors, isSubmitting },
         } = useForm<VolunteeringItemFormType>({
             defaultValues: {
                 startsFrom: new Date,
@@ -67,10 +65,12 @@ const ProfileVolunteeringModal: React.FC<{
             resolver: yupResolver(volunteeringItemSchema)
         });
 
+        const toast = useToast();
 
         const onSubmit: SubmitHandler<VolunteeringItemFormType> = async (data) => {
 
-            setLoading.on();
+            let response;
+
             const { isPresent, ...volunteeringData } = data;
             const endsOn = isPresent ? null : volunteeringData.endsOn;
 
@@ -80,7 +80,7 @@ const ProfileVolunteeringModal: React.FC<{
                     endsOn: endsOn,
                     id: currentItem.id,
                 };
-                await addVolunteeringItem(volunteeringObject);
+                response = await addVolunteeringItem(volunteeringObject);
                 setEducationItemsArray(prev => {
                     const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
                     existingItem.push(volunteeringObject);
@@ -92,14 +92,20 @@ const ProfileVolunteeringModal: React.FC<{
                     endsOn: endsOn,
                     id: uuidv4(),
                 };
-                await addVolunteeringItem(volunteeringObject);
+                response = await addVolunteeringItem(volunteeringObject);
                 setEducationItemsArray(prev => [...prev, volunteeringObject]);
             }
 
             onClose();
             setCurrentItem(null);
             reset();
-            setLoading.off();
+
+            toast({
+                title: response.message,
+                status: response.status as "success" | "error",
+                duration: 9000,
+                isClosable: true,
+            });
         };
 
         useEffect(() => {
@@ -172,7 +178,7 @@ const ProfileVolunteeringModal: React.FC<{
                                 w="full"
                                 mt={3}
                                 colorScheme='purple'
-                                isLoading={isLoading}
+                                isLoading={isSubmitting}
                                 loadingText={currentItem ? "Updating..." : "Adding..."}
                             >
                                 {currentItem ? "Update" : "Add"}

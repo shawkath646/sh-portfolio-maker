@@ -1,8 +1,9 @@
 "use server";
 import { redirect } from "next/navigation";
+import ProjectsBox from "./ProjectsBox";
 import getMetadataByUsername from "@/actions/database/metadata/getMetadataByUsername";
 import getProjectsData from "@/actions/database/projects/getProjectItems";
-import ProjectsBox from "./ProjectsBox";
+import addViewer from "@/actions/database/addViewer";
 
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -12,6 +13,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
     const portfolioData = await getProjectsData(userId);
     if (!portfolioData) redirect("/not-found");
+
+    await addViewer(userId);
 
     return <ProjectsBox projectsData={portfolioData} username={params.slug} />
 }

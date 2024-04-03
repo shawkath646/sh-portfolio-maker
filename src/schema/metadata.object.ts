@@ -8,6 +8,7 @@ const metadataObject: MetaDataType = {
     joinedOn: new Date(),
     lastName: "",
     username: "",
+    viewers: 0
 }
 
 export default metadataObject;

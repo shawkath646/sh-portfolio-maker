@@ -25,7 +25,7 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
-    useToast
+    useToast,
 } from "@chakra-ui/react";
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -52,7 +52,7 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
         reset,
         setError,
         formState: { errors, isSubmitting },
-    } = useForm<PartialBy<IntroType, "skillsCategories">>({
+    } = useForm<PartialBy<IntroType, "skillCategories">>({
         defaultValues: {
             fullName: introData.fullName,
             description: introData.description,
@@ -66,12 +66,13 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
 
     const toast = useToast();
 
-    const onSubmit: SubmitHandler<PartialBy<IntroType, "skillsCategories">> = async (data) => {
-        const response = updateIntroData(data);
-        toast.promise(response, {
-            success: { title: 'Data updated successfully' },
-            error: { title: 'Something wrong', description: '' },
-            loading: { title: 'Data updating...' },
+    const onSubmit: SubmitHandler<PartialBy<IntroType, "skillCategories">> = async (data) => {
+        const response = await updateIntroData(data);
+        toast({
+            title: response.message,
+            status: response.status as "success" | "error",
+            duration: 9000,
+            isClosable: true,
         });
     };
 
@@ -218,7 +219,13 @@ const ProfileIntro = ({ introData }: { introData: IntroType }) => {
                 </SimpleGrid>
                 <ButtonGroup mt={4} justifyContent="end" w="full">
                     <Button onClick={onOpen} colorScheme='green'>Reset</Button>
-                    <Button type="submit" isLoading={isSubmitting} colorScheme='twitter'>Update Intro</Button>
+                    <Button
+                        type="submit"
+                        isLoading={isSubmitting}
+                        colorScheme='twitter'
+                    >
+                        Update Intro
+                    </Button>
                 </ButtonGroup>
             </form>
             <Modal isOpen={isOpen} onClose={onClose}>

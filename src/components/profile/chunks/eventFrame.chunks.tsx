@@ -17,7 +17,9 @@ import {
 } from "@chakra-ui/react";
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
 import formatDate from "@/utils/formatDate";
+import removeEventItem from "@/actions/database/preferences/removeEventItem";
 import { EventItemType } from "@/types/types";
+
 
 
 const EventFrame: React.FC<{
@@ -102,7 +104,8 @@ const EventFrame: React.FC<{
                 <ItemDeleteModal
                     isOpen={isOpen}
                     onClose={onClose}
-                    onDelete={() => {
+                    onDelete={async() => {
+                        await removeEventItem(item.id);
                         setEventItemsArray(prev => prev.filter(prevItem => item !== prevItem));
                     }}
                 />

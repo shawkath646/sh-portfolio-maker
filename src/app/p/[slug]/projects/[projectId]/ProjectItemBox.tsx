@@ -3,11 +3,12 @@ import { Box, Container } from "@chakra-ui/react";
 import Markdown from "react-markdown";
 import remarkRehype from 'remark-rehype';
 import remarkGfm from 'remark-gfm';
+import rehypeRaw from "rehype-raw";
 import chakraRemarkComponents from "./chakraRemarkComponents";
-import { ProjectsDataType } from "@/types/types";
+import { ProjectItemType } from "@/types/types";
 
 
-const ProjectItemBox = ({ projectsData }: { projectsData: ProjectsDataType }) => (
+const ProjectItemBox = ({ projectsData }: { projectsData: ProjectItemType }) => (
     <Box
         as="main"
         w="full"
@@ -17,7 +18,7 @@ const ProjectItemBox = ({ projectsData }: { projectsData: ProjectsDataType }) =>
             {projectsData.description && (
                 <Markdown
                     components={chakraRemarkComponents}
-                    remarkPlugins={[remarkRehype, remarkGfm]}
+                    remarkPlugins={[remarkRehype, remarkGfm, rehypeRaw]}
                 >
                     {projectsData.description}
                 </Markdown>

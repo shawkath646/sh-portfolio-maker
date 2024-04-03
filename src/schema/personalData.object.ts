@@ -1,6 +1,6 @@
-import { PerosnalDataType } from "@/types/types";
+import { PersonalDataType } from "@/types/types";
 
-const personalDataObject: PerosnalDataType = {
+const personalDataObject: PersonalDataType = {
     dateOfBirth: null,
     interestedIn: [],
     languages: [],

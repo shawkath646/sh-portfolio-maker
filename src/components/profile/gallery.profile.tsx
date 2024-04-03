@@ -35,6 +35,7 @@ const ProfileGallery: React.FC<{ galleryData: GalleryDataType }> = ({ galleryDat
                     setCurrentCollection={setCurrentCollection}
                     setGalleryCollectionArray={setGalleryCollectionArray}
                     setGalleryItemsArray={setGalleryItemsArray}
+                    onModalOpen={onOpen}
                 />
             )) : (
                 <Box as={Center} h="350px">

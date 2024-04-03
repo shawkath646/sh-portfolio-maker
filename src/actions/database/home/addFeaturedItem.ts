@@ -1,7 +1,7 @@
 "use server";
 import { auth } from "@/app/auth";
 import { db } from "@/config/firebase.config";
-import uploadImage from "@/actions/database/uploadImage";
+import uploadFile from "@/actions/database/uploadFile";
 import { FeaturedItemType, ResponseType } from "@/types/types";
 
 
@@ -13,7 +13,7 @@ const updateFeaturedItem = async(item: FeaturedItemType): Promise<ResponseType> 
     };
 
     if (item.icon) {
-        const { downloadURL } = await uploadImage(item.icon, `featuredItem-${item.id}`);
+        const { downloadURL } = await uploadFile(item.icon, `featuredItem-${item.id}`);
         item.icon = downloadURL;
     }
 

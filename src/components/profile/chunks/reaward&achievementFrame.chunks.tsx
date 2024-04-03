@@ -16,8 +16,10 @@ import {
     Text,
 } from "@chakra-ui/react";
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
+import removeReawardAndAchievementItem from "@/actions/database/portfolio/removeReawardAndAchievementItem";
 import formatDate from "@/utils/formatDate";
 import { ReawardAndAchievementItemType } from "@/types/types";
+
 
 const ReawardAndAchievementFrame: React.FC<{
     item: ReawardAndAchievementItemType,
@@ -118,7 +120,8 @@ const ReawardAndAchievementFrame: React.FC<{
                 <ItemDeleteModal
                     isOpen={isOpen}
                     onClose={onClose}
-                    onDelete={() => {
+                    onDelete={async() => {
+                        await removeReawardAndAchievementItem(item.id);
                         setReawardAndAchievementItemsArray(prev => prev.filter(prevItem => item !== prevItem));
                     }}
                 />

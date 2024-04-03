@@ -26,7 +26,7 @@ export default function Navbar({ session, appData }: { session: Session | null; 
     URLsuffix = "/p/" + username;
   }
   else if (currentUrl.startsWith("/profile")) URLsuffix = "/profile";
-  
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -130,6 +130,19 @@ export default function Navbar({ session, appData }: { session: Session | null; 
                     }}
                   >
                     {session.user.isEnterpriseUser ? "Enterprise user" : "Standard user"}
+                  </Link>
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem>
+                  <Link
+                    href={"/p/" + session.user.username}
+                    display="block"
+                    w="full"
+                    _hover={{
+                      textDecoration: "none"
+                    }}
+                  >
+                    Portfolio
                   </Link>
                 </MenuItem>
                 <MenuDivider />

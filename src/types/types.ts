@@ -8,10 +8,12 @@ export interface TimestampFieldValue {
     _nanoseconds: number;
 }
 
-export interface ViewersType {
+export interface ViewerItemType {
     firstViewedOn: TimestampFieldValue | Timestamp | Date;
     lastViewedOn: TimestampFieldValue | Timestamp | Date;
     id: string;
+    name: string;
+    username: string;
 }
 
 export interface MetaDataType {
@@ -22,7 +24,7 @@ export interface MetaDataType {
     isSuspended: boolean;
     id: string;
     contact: string;
-    viewers?: ViewersType[];
+    viewers: number;
 }
 
 export interface IntroType {
@@ -31,7 +33,7 @@ export interface IntroType {
     description: string;
     title: string[];
     quickLinks: QuickLinksType[];
-    skillsCategories: SkillsCategoryType[];
+    skillCategories: SkillCategoryType[];
     socialItems: string[];
 }
 
@@ -41,13 +43,13 @@ export interface QuickLinksType {
     color: string;
 }
 
-export interface SkillsCategoryType {
-    categoryId: number;
+export interface SkillCategoryType {
+    categoryId: string;
     name: string;
 }
 
 export interface SkillItemType {
-    categoryId: number;
+    categoryId: string;
     icon: string;
     id: string;
     name: string;
@@ -126,10 +128,10 @@ export interface ReawardAndAchievementItemType {
 }
 
 export interface PortfolioDataType {
-    education: EducationItemType[];
-    workExperience: WorkExperienceItemType[];
-    volunteering: VolunteeringItemType[];
-    reawards: ReawardAndAchievementItemType[];
+    educationItems: EducationItemType[];
+    workExperienceItems: WorkExperienceItemType[];
+    volunteeringItems: VolunteeringItemType[];
+    reawardAndAchievementItems: ReawardAndAchievementItemType[];
 }
 
 export interface ProjectItemType {
@@ -175,7 +177,7 @@ export interface EventItemType {
     id: string;
 }
 
-export interface PerosnalDataType {
+export interface PersonalDataType {
     dateOfBirth: TimestampFieldValue | Timestamp | Date | null;
     interestedIn: string[];
     languages: string[];
@@ -185,7 +187,7 @@ export interface PerosnalDataType {
 }
 
 export interface PreferencesDataType {
-    personalData: PerosnalDataType;
+    personalData: PersonalDataType;
     eventItems: EventItemType[];
 }
 

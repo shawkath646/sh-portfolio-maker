@@ -6,6 +6,7 @@ import introObject from "@/schema/intro.object";
 import metadataObject from "@/schema/metadata.object";
 import personalDataObject from "@/schema/personalData.object";
 import { ResponseType } from "@/types/types";
+import getMetadataById from "./metadata/getMetadataById";
 
 
 
@@ -15,7 +16,13 @@ const createProfile = async(): Promise<ResponseType> => {
 
     if (!session || !session.user.id || !session.user.email || !session.user.firstName || !session.user.lastName) return {
         status: "error",
-        message: "User daata invalid"
+        message: "Invalid session provided. Please log in again to resolve the issue."
+    };
+
+    const userMetadata = await getMetadataById(session.user.id);
+    if (userMetadata) return {
+        status: "error",
+        message: "A profile has already been created using this account. If you are unable to access your profile, please contact the developer to resolve the issue."
     };
 
     const appId = process.env.SHAS_APP_ID;

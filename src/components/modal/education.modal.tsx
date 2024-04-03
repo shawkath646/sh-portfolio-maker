@@ -16,7 +16,7 @@ import {
     Checkbox,
     SimpleGrid,
     Select,
-    useBoolean,
+    useToast,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -55,15 +55,13 @@ const ProfileEducationModal: React.FC<{
     setEducationItemsArray
 }) => {
 
-        const [isLoading, setLoading] = useBoolean(false);
-
         const {
             control,
             handleSubmit,
             reset,
             watch,
             register,
-            formState: { errors },
+            formState: { errors, isSubmitting },
         } = useForm<EducationItemFormType>({
             defaultValues: {
                 startsFrom: new Date,
@@ -72,9 +70,12 @@ const ProfileEducationModal: React.FC<{
             resolver: yupResolver(educationItemSchema)
         });
 
+        const toast = useToast();
+
         const onSubmit: SubmitHandler<EducationItemFormType> = async (data) => {
 
-            setLoading.on();
+            let response;
+
             const { isPresent, ...educationData } = data;
             const endsOn = isPresent ? null : educationData.endsOn;
 
@@ -84,7 +85,7 @@ const ProfileEducationModal: React.FC<{
                     endsOn: endsOn,
                     id: currentItem.id,
                 };
-                await addEducationItem(educationObject);
+                response = await addEducationItem(educationObject);
                 setEducationItemsArray(prev => {
                     const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
                     existingItem.push(educationObject);
@@ -96,14 +97,20 @@ const ProfileEducationModal: React.FC<{
                     endsOn: endsOn,
                     id: uuidv4(),
                 };
-                await addEducationItem(educationObject);
+                response = await addEducationItem(educationObject);
                 setEducationItemsArray(prev => [...prev, educationObject]);
             }
 
             onClose();
             setCurrentItem(null);
             reset();
-            setLoading.off();
+
+            toast({
+                title: response.message,
+                status: response.status as "success" | "error",
+                duration: 9000,
+                isClosable: true,
+            });
         };
 
         useEffect(() => {
@@ -192,7 +199,7 @@ const ProfileEducationModal: React.FC<{
                                 w="full"
                                 mt={3}
                                 colorScheme='purple'
-                                isLoading={isLoading}
+                                isLoading={isSubmitting}
                                 loadingText={currentItem ? "Updating...": "Adding..."}
                             >
                                 {currentItem ? "Update" : "Add"}

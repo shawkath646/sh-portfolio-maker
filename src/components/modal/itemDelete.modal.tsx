@@ -9,6 +9,7 @@ import {
     AlertDialogBody,
     AlertDialogFooter,
     Button,
+    useToast,
 } from "@chakra-ui/react";
 
 const ItemDeleteModal: React.FC<{
@@ -24,11 +25,20 @@ const ItemDeleteModal: React.FC<{
         const cancelRef = useRef<HTMLButtonElement | null>(null);
         const [isLoading, setLoading] = useBoolean(false);
 
+        const toast = useToast();
+
         const handleDelete = async() => {
             setLoading.on();
             await onDelete();
             onClose();
             setLoading.off();
+
+            toast({
+                title: "Item deleted successfully",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+            });
         }
 
         return (

@@ -21,15 +21,17 @@ import {
     ModalBody,
     ModalCloseButton,
     Checkbox,
+    useToast,
 } from "@chakra-ui/react";
 import TextAddItem from "@/components/textAddItem";
 import DateSelector from "@/components/dateSelector";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { personalDataSchema }from "@/schema/personalData.schema";
-import { PerosnalDataType } from "@/types/types";
+import { PersonalDataType } from "@/types/types";
+import addPersonalData from "@/actions/database/preferences/addPersonalData";
 
 
-export interface PersonalDataFormType {
+interface PersonalDataFormType {
     dateOfBirth: Date;
     interestedIn: string[];
     languages: string[];
@@ -41,7 +43,7 @@ export interface PersonalDataFormType {
     isDateOfBirthHidden: boolean;
 }
 
-const ProfilePreferences: React.FC<{ personalData: PerosnalDataType }> = ({ personalData }) => {
+const ProfilePreferences: React.FC<{ personalData: PersonalDataType }> = ({ personalData }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -67,11 +69,13 @@ const ProfilePreferences: React.FC<{ personalData: PerosnalDataType }> = ({ pers
         resolver: yupResolver(personalDataSchema),
     });
 
+    const toast = useToast();
+
     const maritalStatusTypes = ["Hidden", "Single", "Married", "Divorced", "Widowed", "Separated", "Domestic Partnership", "Civil Union", "Annulled", "Other"];
 
-    const onSubmit: SubmitHandler<PersonalDataFormType> = (data) => {
+    const onSubmit: SubmitHandler<PersonalDataFormType> = async (data) => {
         const { presentAddressLine1, presentAddressLine2, permanentAddressLine1, permanentAddressLine2, isDateOfBirthHidden, dateOfBirth, ...restData } = data;
-        const preferencesObject: PerosnalDataType = {
+        const perosnalDataObject: PersonalDataType = {
             ...restData,
             permanentAddress: {
                 line1: permanentAddressLine1,
@@ -84,8 +88,15 @@ const ProfilePreferences: React.FC<{ personalData: PerosnalDataType }> = ({ pers
             dateOfBirth: isDateOfBirthHidden ? null : dateOfBirth, 
         };
 
-        console.log(preferencesObject);
-    }
+        const response = await addPersonalData(perosnalDataObject);
+
+        toast({
+            title: response.message,
+            status: response.status as "success" | "error",
+            duration: 9000,
+            isClosable: true,
+        });
+    };
 
     return (
         <>

@@ -1,7 +1,7 @@
 "use server";
 import { auth } from "@/app/auth";
 import { db } from "@/config/firebase.config";
-import deleteImageByFileName from "@/actions/database/deleteImageByFileName";
+import deleteImageByFileName from "@/actions/database/deleteFileByName";
 
 const removeMiniGalleryItem = async(itemId: string) => {
     const session = await auth();

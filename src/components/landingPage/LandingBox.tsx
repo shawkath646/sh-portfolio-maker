@@ -323,7 +323,7 @@ const LandingBox = ({
                         <Heading size="lg">Latest User Overview</Heading>
                     </Flex>
                     <Flex direction="column" mt={5}>
-                        <Flex bg="gray.600" color="white" p={4} borderRadius="md" mb={2}>
+                        <Flex bg="gray.600" color="white" p={4} borderRadius="md" mb={2} textAlign="center">
                             <Box flex="1">
                                 <Text fontWeight="bold">Full name</Text>
                             </Box>
@@ -334,7 +334,7 @@ const LandingBox = ({
                                 <Text fontWeight="bold">Views</Text>
                             </Box>
                         </Flex>
-                        {allUsersMetaData?.map((data, index) => (
+                        {allUsersMetaData.map((data, index) => (
                             <Flex
                                 key={index}
                                 bg="gray.700"
@@ -357,8 +357,8 @@ const LandingBox = ({
                                         {data.firstName} {data.lastName}
                                     </Link>
                                 </Box>
-                                <Box flex="1">{formatDate(data.joinedOn as Date)}</Box>
-                                <Box flex="1" textAlign="center">{data.viewers.length}</Box>
+                                <Box flex="1" textAlign="center">{formatDate(data.joinedOn as Date)}</Box>
+                                <Box flex="1" textAlign="center">{data.viewers}</Box>
                             </Flex>
                         ))}
                     </Flex>

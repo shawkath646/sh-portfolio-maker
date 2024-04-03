@@ -13,7 +13,7 @@ import {
     ModalBody,
     ModalCloseButton,
     Textarea,
-    useBoolean,
+    useToast,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -45,14 +45,12 @@ const ProfileReawardAndAchievementModal: React.FC<{
     setReawardAndAchievementArray
 }) => {
 
-        const [isLoading, setLoading] = useBoolean(false);
-
         const {
             control,
             handleSubmit,
             reset,
             register,
-            formState: { errors },
+            formState: { errors, isSubmitting },
         } = useForm<ReawardAndAchievementItemFormType>({
             defaultValues: {
                 issuedOn: new Date,
@@ -60,14 +58,18 @@ const ProfileReawardAndAchievementModal: React.FC<{
             resolver: yupResolver(reawardAndAchievementSchema)
         });
 
+        const toast = useToast();
+
         const onSubmit: SubmitHandler<ReawardAndAchievementItemFormType> = async (data) => {
-            setLoading.on();
+
+            let response;
+
             if (currentItem) {
                 const reawardAndAchievementObject: ReawardAndAchievementItemType = {
                     ...data,
                     id: currentItem.id,
                 };
-                await addReawardAndAchievementItem(reawardAndAchievementObject);
+                response = await addReawardAndAchievementItem(reawardAndAchievementObject);
                 setReawardAndAchievementArray(prev => {
                     const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
                     existingItem.push(reawardAndAchievementObject);
@@ -78,14 +80,20 @@ const ProfileReawardAndAchievementModal: React.FC<{
                     ...data,
                     id: uuidv4(),
                 };
-                await addReawardAndAchievementItem(reawardAndAchievementObject);
+                response = await addReawardAndAchievementItem(reawardAndAchievementObject);
                 setReawardAndAchievementArray(prev => [...prev, reawardAndAchievementObject]);
             }
 
             onClose();
             setCurrentItem(null);
             reset();
-            setLoading.off();
+
+            toast({
+                title: response.message,
+                status: response.status as "success" | "error",
+                duration: 9000,
+                isClosable: true,
+            });
         };
 
         useEffect(() => {
@@ -139,7 +147,7 @@ const ProfileReawardAndAchievementModal: React.FC<{
                                 w="full"
                                 mt={3}
                                 colorScheme='purple'
-                                isLoading={isLoading}
+                                isLoading={isSubmitting}
                                 loadingText={currentItem ? "Updating..." : "Adding..."}
                             >
                                 {currentItem ? "Update" : "Add"}

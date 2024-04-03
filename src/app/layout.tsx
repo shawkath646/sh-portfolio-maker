@@ -6,7 +6,7 @@ import ClientWrapper from '@/components/layout/ClientWrapper';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import getMetadataById from "@/actions/database/metadata/getMetadataById";
-import './globals.css';
+import { AppDataType } from "shas-app-controller/types";
 
 const inter = Poppins({
   subsets: ['latin'],
@@ -29,7 +29,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body className={inter.className}>
         <ClientWrapper>
           <ContentWrapper>
-            <Navbar session={session} appData={appData} />
+            <Navbar session={session} appData={appData as AppDataType} />
             {children}
             <Footer appData={appData} brandData={brandData} authorData={authorData} />
           </ContentWrapper>

@@ -19,7 +19,7 @@ export default async function Page() {
         <Container as="main" maxW={1536} mx="auto" pt={20} px={5} overflow="hidden" minH="75vh" mb={10}>
             <ProfileIntro introData={homeData.intro} />
             <ProfileFeatured featuredItems={homeData.featuredItems} />
-            <ProfileSkills skillItems={homeData.skillItems} skillsCategories={homeData.intro.skillsCategories} />
+            <ProfileSkills skillItems={homeData.skillItems} skillCategories={homeData.intro.skillCategories} />
             <ProfileMiniGallery miniGalleryItems={homeData.miniGalleryItems} />
         </Container>
     );

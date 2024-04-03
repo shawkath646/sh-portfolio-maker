@@ -1,20 +1,37 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Flex, Center, GridItem, Heading, SimpleGrid, Stack, Text, Box, } from "@chakra-ui/react";
+import {
+    Flex,
+    Center,
+    GridItem,
+    Heading,
+    SimpleGrid,
+    Stack,
+    Text,
+    Box,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverHeader,
+    PopoverBody,
+} from "@chakra-ui/react";
 import { Link } from "@chakra-ui/next-js";
-import { SkillsCategoryType, SkillItemType } from "@/types/types";
+import { SkillCategoryType, SkillItemType } from "@/types/types";
 import { IoIosArrowForward } from "react-icons/io";
 import { MdWorkspaces } from "react-icons/md";
 
 
 
-const Skills = ({ skillsItem, categories }: { skillsItem: SkillItemType[]; categories: SkillsCategoryType[] }) => (
+const Skills = ({ skillsItem, categories }: { skillsItem: SkillItemType[]; categories: SkillCategoryType[] }) => (
     <Box as="section" pt={10}>
         <Heading
             as={motion.h3}
             size={['xl', 'xl', 'lg']}
             textAlign="center"
+            mb={12}
             initial={{
                 opacity: 0
             }}
@@ -28,41 +45,45 @@ const Skills = ({ skillsItem, categories }: { skillsItem: SkillItemType[]; categ
         >
             Experienced with
         </Heading>
-        <SimpleGrid mt={5} minChildWidth={300} spacing={2}>
-            {categories?.map((category, index) => (
-                <GridItem
-                    as={motion.div}
-                    key={index}
-                    display={["block", "block", "flex"]}
-                    initial={{
-                        opacity: 0,
-                        x: -50
-                    }}
-                    whileInView={{
-                        opacity: 1,
-                        x: 0,
-                        transition: {
-                            duration: 1
-                        }
-                    }}
-                    viewport={{ once: true }}
-                >
-                    <Flex w="320px" alignItems="center" gap={2}>
-                        <Text
-                            fontSize="24px"
-                            variant='solid'
-                            colorScheme='blue'
-                        >
-                            {category.name}
-                        </Text>
-                        <IoIosArrowForward size={26} />
-                    </Flex>
-                    <SimpleGrid minChildWidth="150px" spacing={4} mt={3} justifyItems="center" w="full">
-                        {skillsItem.filter(item => item.categoryId === category.categoryId).map((item, index) => (
-                            <GridItem
+        {categories?.map((category, index) => (
+            <Box
+                as={motion.div}
+                key={index}
+                mb={8}
+                initial={{
+                    opacity: 0,
+                    x: -50
+                }}
+                whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    transition: {
+                        duration: 1
+                    }
+                }}
+                viewport={{ once: true }}
+            >
+                <Flex alignItems="center" gap={2}>
+                    <Text
+                        fontSize="24px"
+                        variant='solid'
+                        colorScheme='blue'
+                        isTruncated
+                    >
+                        {category.name}
+                    </Text>
+                    <IoIosArrowForward size={26} />
+                </Flex>
+                <Flex flexWrap="wrap" gap={4} mt={3} justifyItems="center" w="full">
+                    {(() => {
+                        const filteredItems = skillsItem.filter(item => item.categoryId === category.categoryId);
+                        return filteredItems.length > 0 ? filteredItems.map((item, index) => (
+                            <Flex
                                 as={motion.div}
                                 key={index}
                                 alignItems="center"
+                                gap={4}
+                                w="180px"
                                 initial={{
                                     opacity: 0,
                                     x: 50,
@@ -77,20 +98,32 @@ const Skills = ({ skillsItem, categories }: { skillsItem: SkillItemType[]; categ
                                 }}
                                 viewport={{ once: true }}
                             >
-                                <Flex alignItems="center" gap={4}>
-                                    {item.icon ? (
-                                        <Image src={item.icon} alt={`${item.name} icon`} height={42} width={42} />
-                                    ) : (
-                                        <MdWorkspaces size={24} style={{ color: "#0ea5e9" }} />
-                                    )}
-                                    <Text fontSize="24px" fontWeight={500}>{item.name}</Text>
-                                </Flex>
-                            </GridItem>
-                        ))}
-                    </SimpleGrid>
-                </GridItem>
-            ))}
-        </SimpleGrid>
+                                {item.icon ? (
+                                    <Image src={item.icon} alt={`${item.name} icon`} height={42} width={42} style={{ objectFit: "cover", height: "42px", width: "42px" }} />
+                                ) : (
+                                    <Box width="35px" height="35px" flex="none">
+                                        <MdWorkspaces size={24} style={{ color: "#0ea5e9", height: "35px", width: "35px" }} />
+                                    </Box>
+                                )}
+                                <Popover>
+                                    <PopoverTrigger>
+                                        <Text fontSize="20px" fontWeight={500} isTruncated>{item.name}</Text>
+                                    </PopoverTrigger>
+                                    <PopoverContent>
+                                        <PopoverArrow />
+                                        <PopoverCloseButton />
+                                        <PopoverHeader>Skill Name</PopoverHeader>
+                                        <PopoverBody>{item.name}</PopoverBody>
+                                    </PopoverContent>
+                                </Popover>
+                            </Flex>
+                        )) : (
+                            <Text color="#475569">No item added</Text>
+                        );
+                    })()}
+                </Flex>
+            </Box>
+        ))}
         <Center mt={5}>
             <Link
                 href="/projects"

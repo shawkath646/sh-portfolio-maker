@@ -29,6 +29,7 @@ export default function Page() {
                     bgColor="rgba(255, 255, 255, 0.8)"
                     rounded="md"
                     boxShadow="lg"
+                    maxW="700px"
                     initial={{
                         opacity: 0,
                     }}

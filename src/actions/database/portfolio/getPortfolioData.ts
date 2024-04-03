@@ -11,7 +11,7 @@ const getPortfolioData = cache(async (userId: string): Promise<PortfolioDataType
     const volunteeringSnapshot = await portfolioRef.ref.collection("volunteeringItems").get();
     const reawardsSnapshot = await portfolioRef.ref.collection("reawardAndAchievementItems").get();
 
-    const education = educationSnapshot.docs.map(doc => {
+    const educationItems = educationSnapshot.docs.map(doc => {
         const { startsFrom, endsOn, ...rest } = doc.data() as EducationItemType;
         return {
             ...rest,
@@ -19,7 +19,7 @@ const getPortfolioData = cache(async (userId: string): Promise<PortfolioDataType
             endsOn: endsOn && timeStampToDate(endsOn)
         };
     });
-    const workExperience = workExperienceSnapshot.docs.map(doc => {
+    const workExperienceItems = workExperienceSnapshot.docs.map(doc => {
         const { startsFrom, endsOn, ...rest } = doc.data() as WorkExperienceItemType;
         return {
             ...rest,
@@ -27,7 +27,7 @@ const getPortfolioData = cache(async (userId: string): Promise<PortfolioDataType
             endsOn: endsOn && timeStampToDate(endsOn)
         };
     });
-    const volunteering = volunteeringSnapshot.docs.map(doc => {
+    const volunteeringItems = volunteeringSnapshot.docs.map(doc => {
         const { startsFrom, endsOn, ...rest } = doc.data() as VolunteeringItemType;
         return {
             ...rest,
@@ -35,7 +35,7 @@ const getPortfolioData = cache(async (userId: string): Promise<PortfolioDataType
             endsOn: endsOn && timeStampToDate(endsOn)
         };
     });
-    const reawards = reawardsSnapshot.docs.map(doc => {
+    const reawardAndAchievementItems = reawardsSnapshot.docs.map(doc => {
         const { issuedOn, ...rest } = doc.data() as ReawardAndAchievementItemType;
         return {
             ...rest,
@@ -44,10 +44,10 @@ const getPortfolioData = cache(async (userId: string): Promise<PortfolioDataType
     });
 
     return {
-        education,
-        workExperience,
-        volunteering,
-        reawards
+        educationItems,
+        workExperienceItems,
+        volunteeringItems,
+        reawardAndAchievementItems
     };
 });
 

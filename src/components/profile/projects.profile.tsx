@@ -16,7 +16,7 @@ import { FaPlus } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
 
 
-const ProfileProjects: React.FC<{ projectItems: ProjectItemType[] }> = ({ projectItems }) => {
+const ProfileProjects: React.FC<{ projectItems: ProjectItemType[], username: string }> = ({ projectItems, username }) => {
 
     const [projectItemsArray, setProjectItemsArray] = useState<ProjectItemType[]>(projectItems);
     const [currentItem, setCurrentItem] = useState<ProjectItemType | null>(null);
@@ -32,6 +32,7 @@ const ProfileProjects: React.FC<{ projectItems: ProjectItemType[] }> = ({ projec
                     {projectItemsArray.map((item, index) => (
                         <ProjectFrame
                             key={index}
+                            username={username}
                             item={item}
                             onModalOpen={onOpen}
                             setCurrentItem={setCurrentItem}

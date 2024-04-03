@@ -1,14 +1,15 @@
 "use client";
-import { Box, Container, Heading, Grid, Text, GridItem, Flex, SimpleGrid, Icon, List, ListItem, ListIcon } from "@chakra-ui/react";
+import { Box, Container, Heading, Text, GridItem, Flex, SimpleGrid, Icon, List, ListItem, ListIcon, IconButton } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/next-js";
-import { PreferencesType } from "@/types/types";
+import { PreferencesDataType } from "@/types/types";
 import formatDate from "@/utils/formatDate";
+import { AiOutlineUnorderedList } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
-import { IoHomeSharp } from "react-icons/io5";
+import { IoHomeSharp, IoClipboardOutline } from "react-icons/io5";
 import { FaCog, FaUserCircle, FaStar, FaCalendar } from "react-icons/fa";
 import { FcPlus } from "react-icons/fc";
 
-const PreferencesBox = ({ username, preferencesData }: { username: string, preferencesData: PreferencesType }) => (
+const PreferencesBox = ({ username, preferencesData, joinedOn, profileViews }: { username: string, preferencesData: PreferencesDataType, joinedOn: Date, profileViews: number }) => (
     <Box
         as="main"
         w="full"
@@ -27,28 +28,32 @@ const PreferencesBox = ({ username, preferencesData }: { username: string, prefe
                         <Icon as={FaUserCircle} h={8} w={8} />
                         <Heading as="h2" size="md">Personal Information</Heading>
                     </Flex>
-                    {preferencesData.dateOfBirth && (
+                    {preferencesData.personalData.dateOfBirth && (
                         <Text mb={1}>
                             <Text as="span" fontWeight={500}>Date of Birth:</Text>
-                            &nbsp;{formatDate(preferencesData.dateOfBirth as Date)}
+                            &nbsp;{formatDate(preferencesData.personalData.dateOfBirth as Date)}
                         </Text>
                     )}
-                    {preferencesData.maritalStatus && (
+                    {preferencesData.personalData.maritalStatus && (
                         <Text mb={1}>
                             <Text as="span" fontWeight={500}>Marital Status:</Text>
-                            &nbsp;{preferencesData.maritalStatus}
+                            &nbsp;{preferencesData.personalData.maritalStatus}
                         </Text>
                     )}
-                    {preferencesData.languages.length > 0 && (
+                    {preferencesData.personalData.languages.length > 0 && (
                         <Text mb={1}>
                             <Text as="span" fontWeight={500}>Languages:</Text>
-                            &nbsp;{preferencesData.languages.join(", ")}
+                            &nbsp;{preferencesData.personalData.languages.join(", ")}
                         </Text>
                     )}
 
-                    {(!preferencesData.dateOfBirth && !preferencesData.maritalStatus && !preferencesData.languages.length) && (
-                        <Text ml={4}>No personal information provided.</Text>
-                    )}
+                    {(
+                        !preferencesData.personalData.dateOfBirth
+                        && preferencesData.personalData.maritalStatus === "Hidden"
+                        && !preferencesData.personalData.languages.length)
+                        && (
+                            <Text ml={4}>No personal information provided.</Text>
+                        )}
                 </GridItem>
                 <GridItem>
                     <Flex mb={4} alignItems="center" gap={2}>
@@ -56,23 +61,28 @@ const PreferencesBox = ({ username, preferencesData }: { username: string, prefe
                         <Heading as="h2" size="md">Address</Heading>
                     </Flex>
 
-                    {(preferencesData.presentAddress.line1 || preferencesData.presentAddress.line2) && (
+                    {(preferencesData.personalData.presentAddress.line1 || preferencesData.personalData.presentAddress.line2) && (
                         <Text mb={2}>
                             <Text as="span" fontWeight={500}>Present Address:</Text>
-                            &nbsp;{preferencesData.presentAddress.line1}, {preferencesData.presentAddress.line2}
+                            &nbsp;{preferencesData.personalData.presentAddress.line1}, {preferencesData.personalData.presentAddress.line2}
                         </Text>
                     )}
 
-                    {(preferencesData.permanentAddress.line1 || preferencesData.permanentAddress.line2) && (
+                    {(preferencesData.personalData.permanentAddress.line1 || preferencesData.personalData.permanentAddress.line2) && (
                         <Text>
                             <Text as="span" fontWeight={500}>Permanent Address:</Text>
-                            &nbsp;{preferencesData.permanentAddress.line1}, {preferencesData.permanentAddress.line2}
+                            &nbsp;{preferencesData.personalData.permanentAddress.line1}, {preferencesData.personalData.permanentAddress.line2}
                         </Text>
                     )}
 
-                    {(!preferencesData.presentAddress.line1 && !preferencesData.presentAddress.line2 && !preferencesData.permanentAddress.line1 && !preferencesData.permanentAddress.line2) && (
-                        <Text ml={4}>No address provided.</Text>
-                    )}
+                    {(
+                        !preferencesData.personalData.presentAddress.line1
+                        && !preferencesData.personalData.presentAddress.line2
+                        && !preferencesData.personalData.permanentAddress.line1
+                        && !preferencesData.personalData.permanentAddress.line2)
+                        && (
+                            <Text ml={4}>No address provided.</Text>
+                        )}
                 </GridItem>
 
                 <GridItem>
@@ -80,9 +90,9 @@ const PreferencesBox = ({ username, preferencesData }: { username: string, prefe
                         <Icon as={FaStar} h={7} w={7} />
                         <Heading as="h2" size="md">Interests</Heading>
                     </Flex>
-                    {preferencesData.interestedIn.length > 0 ? (
+                    {preferencesData.personalData.interestedIn.length > 0 ? (
                         <List mb={1}>
-                            {preferencesData.interestedIn.map((item, key) => (
+                            {preferencesData.personalData.interestedIn.map((item, key) => (
                                 <ListItem key={key} as={Flex} alignItems="center">
                                     <ListIcon as={FcPlus} />
                                     <Text>{item}</Text>
@@ -98,7 +108,7 @@ const PreferencesBox = ({ username, preferencesData }: { username: string, prefe
                         <Icon as={FaCalendar} h={6} w={6} />
                         <Heading as="h2" size="md">Events</Heading>
                     </Flex>
-                    {preferencesData.events.length ? preferencesData.events.map((event, index) => (
+                    {preferencesData.eventItems.length ? preferencesData.eventItems.map((event, index) => (
                         <Box key={index}>
                             <Text mt={2} fontWeight={500}>{formatDate(event.timestamp as Date)}</Text>
                             <Text mb={2}>{event.title}</Text>
@@ -113,7 +123,35 @@ const PreferencesBox = ({ username, preferencesData }: { username: string, prefe
                         <Text ml={4}>No events item.</Text>
                     )}
                 </GridItem>
+                <GridItem>
+                    <Flex mb={4} alignItems="center" gap={2}>
+                        <Icon as={AiOutlineUnorderedList} h={6} w={6} />
+                        <Heading as="h2" size="md">Others</Heading>
+                    </Flex>
+                    <Text mb={1}>
+                        <Text as="span" fontWeight={500}>Joined On:</Text>
+                        &nbsp;{formatDate(joinedOn as Date)}
+                    </Text>
+                    <Text mb={1}>
+                        <Text as="span" fontWeight={500}>Profile views:</Text>
+                        &nbsp;{profileViews}
+                    </Text>
+                </GridItem>
             </SimpleGrid>
+            <Flex my="50px" alignItems="center" gap={2} justifyContent="center">
+                <Text>
+                    <Text as="span" fontWeight={500} color="#3b82f6">Profile URL:</Text>
+                    &nbsp;{process.env.NEXT_PUBLIC_BASE_URL}/p/{username}
+                </Text>
+                <IconButton
+                    icon={<IoClipboardOutline />}
+                    aria-label="copy button"
+                    onClick={() => {
+                        navigator.clipboard.writeText(process.env.NEXT_PUBLIC_BASE_URL + "/p/" + username);
+                        alert("Profile link copied to clipboard.")
+                    }}
+                />
+            </Flex>
             <Flex
                 justifyContent="space-between"
                 alignItems="center"

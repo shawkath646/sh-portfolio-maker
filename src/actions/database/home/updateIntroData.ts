@@ -1,13 +1,10 @@
 "use server";
 import { auth } from "@/app/auth";
 import { db } from "@/config/firebase.config";
-import uploadImage from "@/actions/database/uploadImage";
+import uploadFile from "@/actions/database/uploadFile";
 import { PartialBy, IntroType, ResponseType } from "@/types/types";
 
-
-
-export async function updateIntroData(introData: PartialBy<IntroType, "skillsCategories">): Promise<ResponseType> {
-
+export async function updateIntroData(introData: PartialBy<IntroType, "skillCategories">): Promise<ResponseType> {
     const session = await auth();
     if (!session?.user.id) return {
         status: "error",
@@ -15,7 +12,7 @@ export async function updateIntroData(introData: PartialBy<IntroType, "skillsCat
     };
 
     if (introData.introPic) {
-        const { downloadURL } = await uploadImage(introData.introPic, `intro-${session.user.id}`);
+        const { downloadURL } = await uploadFile(introData.introPic, `intro-${session.user.id}`);
         introData.introPic = downloadURL;
     }
 

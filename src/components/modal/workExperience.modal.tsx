@@ -20,7 +20,7 @@ import {
     IconButton,
     Select,
     ModalCloseButton,
-    useBoolean
+    useToast
 } from "@chakra-ui/react";
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -62,8 +62,6 @@ const ProfileWorkExperienceModal: React.FC<{
     setWorkExperienceItemsArray
 }) => {
 
-        const [isLoading, setLoading] = useBoolean(false);
-
         const {
             control,
             handleSubmit,
@@ -72,7 +70,7 @@ const ProfileWorkExperienceModal: React.FC<{
             setError,
             clearErrors,
             register,
-            formState: { errors },
+            formState: { errors, isSubmitting },
         } = useForm<WorkExperienceFormType>({
             defaultValues: {
                 startsFrom: new Date,
@@ -83,9 +81,12 @@ const ProfileWorkExperienceModal: React.FC<{
             resolver: yupResolver(workExperienceItemSchema)
         });
 
+        const toast = useToast();
+
         const onSubmit: SubmitHandler<WorkExperienceFormType> = async (data) => {
 
-            setLoading.on();
+            let response;
+
             const { isPresent, ...workExperienceData } = data;
             const endsOn = isPresent ? null : workExperienceData.endsOn;
 
@@ -95,7 +96,7 @@ const ProfileWorkExperienceModal: React.FC<{
                     endsOn: endsOn,
                     id: currentItem.id,
                 };
-                await addWorkExperienceItem(workExperienceObject);
+                response = await addWorkExperienceItem(workExperienceObject);
                 setWorkExperienceItemsArray(prev => {
                     const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
                     existingItem.push(workExperienceObject);
@@ -107,14 +108,20 @@ const ProfileWorkExperienceModal: React.FC<{
                     endsOn: endsOn,
                     id: uuidv4(),
                 };
-                await addWorkExperienceItem(workExperienceObject);
+                response = await addWorkExperienceItem(workExperienceObject);
                 setWorkExperienceItemsArray(prev => [...prev, workExperienceObject]);
             }
 
             onClose();
             setCurrentItem(null);
             reset();
-            setLoading.off();
+
+            toast({
+                title: response.message,
+                status: response.status as "success" | "error",
+                duration: 9000,
+                isClosable: true,
+            });
         };
 
         useEffect(() => {
@@ -291,7 +298,7 @@ const ProfileWorkExperienceModal: React.FC<{
                                 w="full"
                                 mt={3}
                                 colorScheme='purple'
-                                isLoading={isLoading}
+                                isLoading={isSubmitting}
                                 loadingText={currentItem ? "Updating..." : "Adding..."}
                             >
                                 {currentItem ? "Update" : "Add"}

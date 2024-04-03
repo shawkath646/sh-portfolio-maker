@@ -5,7 +5,7 @@ const introObject: IntroType = {
     fullName: "",
     introPic: "",
     quickLinks: [],
-    skillsCategories: [],
+    skillCategories: [],
     socialItems: [],
     title: []
 };

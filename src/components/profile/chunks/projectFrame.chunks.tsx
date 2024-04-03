@@ -20,17 +20,21 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/next-js";
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
+import removeProjectItem from "@/actions/database/projects/removeProjectItem";
 import formatDate from "@/utils/formatDate";
 import { ProjectItemType } from "@/types/types";
 import { FaGithub, FaFile, FaExternalLinkAlt, FaRegImages } from "react-icons/fa";
 
 
+
 const ProjectFrame: React.FC<{
+    username: string;
     item: ProjectItemType,
     setProjectItemsArray: Dispatch<SetStateAction<ProjectItemType[]>>;
     setCurrentItem: Dispatch<SetStateAction<ProjectItemType | null>>;
     onModalOpen: () => void;
 }> = ({
+    username,
     item,
     setProjectItemsArray,
     setCurrentItem,
@@ -93,7 +97,7 @@ const ProjectFrame: React.FC<{
                     </Text>
                     <Box mt={4} h="22px">
                         {item.description && (
-                            <Link href={`/p/${"username"}/projects/${item.id}`} fontSize="sm" mr={2}><Icon as={FaFile} mr={1} />Project</Link>
+                            <Link href={`/p/${username}/projects/${item.id}`} fontSize="sm" mr={2}><Icon as={FaFile} mr={1} />Project</Link>
                         )}
                         {item.sourceLink && (
                             <Link href={item.sourceLink} isExternal fontSize="sm" mr={2}><Icon as={FaGithub} mr={1} />Source</Link>
@@ -127,7 +131,10 @@ const ProjectFrame: React.FC<{
                 <ItemDeleteModal
                     isOpen={isOpen}
                     onClose={onClose}
-                    onDelete={() => setProjectItemsArray(prev => prev.filter(prevItem => prevItem !== item))}
+                    onDelete={async() => {
+                        await removeProjectItem(item.id);
+                        setProjectItemsArray(prev => prev.filter(prevItem => prevItem !== item))
+                    }}
                 />
             </>
         );

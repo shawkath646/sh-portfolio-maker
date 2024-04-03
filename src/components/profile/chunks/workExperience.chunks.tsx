@@ -19,9 +19,11 @@ import {
     ListIcon
 } from "@chakra-ui/react";
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
+import removeWorkExperienceItem from "@/actions/database/portfolio/removeWorkExperienceItem";
 import formatDate from "@/utils/formatDate";
 import { WorkExperienceItemType } from "@/types/types";
 import { MdWorkspaces } from "react-icons/md";
+
 
 const WorkExperienceFrame: React.FC<{
     item: WorkExperienceItemType,
@@ -152,7 +154,8 @@ const WorkExperienceFrame: React.FC<{
                 <ItemDeleteModal
                     isOpen={isOpen}
                     onClose={onClose}
-                    onDelete={() => {
+                    onDelete={async() => {
+                        await removeWorkExperienceItem(item.id);
                         setWorkExperienceItemsArray(prev => prev.filter(prevItem => item !== prevItem));
                     }}
                 />

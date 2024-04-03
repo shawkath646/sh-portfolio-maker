@@ -4,8 +4,9 @@ import { Dispatch, SetStateAction } from "react";
 import { Box, useDisclosure, Button } from "@chakra-ui/react";
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
 import { GalleryItemType } from "@/types/types";
+import removeGalleryItem from "@/actions/database/gallery/removeGalleryItem";
 
-const ImageFrame: React.FC<{
+const GalleryFrame: React.FC<{
     photo: GalleryItemType,
     setGalleryItemsArray: Dispatch<SetStateAction<GalleryItemType[]>>,
 }> = ({
@@ -43,7 +44,8 @@ const ImageFrame: React.FC<{
             <ItemDeleteModal
                 isOpen={isOpen}
                 onClose={onClose}
-                onDelete={() => {
+                onDelete={async() => {
+                    await removeGalleryItem(photo.id);
                     setGalleryItemsArray(prev => prev.filter(prevItem => prevItem !== photo));
                 }}
             />
@@ -51,4 +53,4 @@ const ImageFrame: React.FC<{
     );
 };
 
-export default ImageFrame;
+export default GalleryFrame;

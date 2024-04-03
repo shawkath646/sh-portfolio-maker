@@ -12,12 +12,15 @@ import {
     ModalHeader,
     ModalBody,
     ModalCloseButton,
+    useToast,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { featuredItemSchema } from "@/schema/featured.schema";
+import { galleryCollectionSchema } from "@/schema/gallery.schema";
+import addGalleryCollection from "@/actions/database/gallery/addGalleryCollection";
 import { v4 as uuidv4 } from 'uuid';
 import { GalleryCollectionType, PartialBy } from "@/types/types";
+
 
 
 const ProfileGalleryModal: React.FC<{
@@ -38,33 +41,47 @@ const ProfileGalleryModal: React.FC<{
             handleSubmit,
             reset,
             register,
-            formState: { errors },
+            formState: { errors, isSubmitting },
         } = useForm<PartialBy<GalleryCollectionType, "collectionId">>({
-            //resolver: yupResolver(featuredItemSchema)
+            resolver: yupResolver(galleryCollectionSchema)
         });
 
-        const onSubmit: SubmitHandler<PartialBy<GalleryCollectionType, "collectionId">> = (data) => {
+        const toast = useToast();
+
+        const onSubmit: SubmitHandler<PartialBy<GalleryCollectionType, "collectionId">> = async (data) => {
+
+            let response;
+
             if (currentCollection) {
-                const educationObject: GalleryCollectionType = {
+                const collectionObject: GalleryCollectionType = {
                     ...data,
                     collectionId: currentCollection.collectionId,
                 };
+                response = await addGalleryCollection(collectionObject);
                 setGalleryCollectionArray(prev => {
                     const existingItem = prev.filter(prevItem => prevItem !== currentCollection);
-                    existingItem.push(educationObject);
+                    existingItem.push(collectionObject);
                     return existingItem;
                 });
             } else {
-                const educationObject: GalleryCollectionType = {
+                const collectionObject: GalleryCollectionType = {
                     ...data,
                     collectionId: uuidv4(),
                 };
-                setGalleryCollectionArray(prev => [...prev, educationObject]);
+                response = await addGalleryCollection(collectionObject);
+                setGalleryCollectionArray(prev => [...prev, collectionObject]);
             }
 
             onClose();
             setCurrentCollection(null);
             reset();
+
+            toast({
+                title: response.message,
+                status: response.status as "success" | "error",
+                duration: 9000,
+                isClosable: true,
+            });
         };
 
         useEffect(() => {
@@ -99,6 +116,8 @@ const ProfileGalleryModal: React.FC<{
                                 w="full"
                                 mt={3}
                                 colorScheme='purple'
+                                isLoading={isSubmitting}
+                                loadingText={currentCollection ? "Updating...": "Adding..."}
                             >
                                 {currentCollection ? "Update" : "Add"}
                             </Button>

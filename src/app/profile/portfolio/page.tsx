@@ -19,10 +19,10 @@ export default async function Page() {
 
     return (
         <Container as="main" maxW={1536} mx="auto" pt={20} px={0} overflow="hidden" minH="75vh" mb={10}>
-            <ProfileEducation educationItems={portfolioData.education} />
-            <ProfileWorkExperience workExperienceItems={portfolioData.workExperience} />
-            <ProfileVolunteering volunteeringItems={portfolioData.volunteering} />
-            <ProfileReawardAndAchevement reawardAndAchievementItems={portfolioData.reawards} />
+            <ProfileEducation educationItems={portfolioData.educationItems} />
+            <ProfileWorkExperience workExperienceItems={portfolioData.workExperienceItems} />
+            <ProfileVolunteering volunteeringItems={portfolioData.volunteeringItems} />
+            <ProfileReawardAndAchevement reawardAndAchievementItems={portfolioData.reawardAndAchievementItems} />
         </Container>
     );
 }

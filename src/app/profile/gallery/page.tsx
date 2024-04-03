@@ -1,12 +1,15 @@
 "use server";
 import { redirect } from 'next/navigation';
+import { Session } from 'next-auth';
+import { auth } from '@/app/auth';
 import { Container } from "@chakra-ui/react";
 import ProfileGallery from '@/components/profile/gallery.profile';
 import getGalleryData from "@/actions/database/gallery/getGalleryData";
 
 export default async function Page() {
 
-    const galleryData = await getGalleryData("pUpfSkG054JiE0FiwhtZ");
+    const session = await auth() as Session;
+    const galleryData = await getGalleryData(session.user.id as string);
     if (!galleryData) redirect("/profile/create-user");
 
     return (

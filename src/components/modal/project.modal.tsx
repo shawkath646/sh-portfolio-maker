@@ -14,6 +14,7 @@ import {
     ModalCloseButton,
     Checkbox,
     SimpleGrid,
+    useToast,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -23,10 +24,11 @@ import DateSelector from "@/components/dateSelector";
 import { projectSchema } from "@/schema/project.schema";
 import { v4 as uuidv4 } from 'uuid';
 import { ProjectItemType } from "@/types/types";
+import AddProjectItem from "@/actions/database/projects/addProjectItem";
 
 
 
-export interface ProjectItemFormType {
+interface ProjectItemFormType {
     name: string;
     description: string;
     icon: string;
@@ -61,7 +63,7 @@ const ProfileProjectModal: React.FC<{
             register,
             clearErrors,
             setError,
-            formState: { errors },
+            formState: { errors, isSubmitting },
         } = useForm<ProjectItemFormType>({
             defaultValues: {
                 startsFrom: new Date,
@@ -70,34 +72,47 @@ const ProfileProjectModal: React.FC<{
             resolver: yupResolver(projectSchema)
         });
 
-        const onSubmit: SubmitHandler<ProjectItemFormType> = (data) => {
+        const toast = useToast();
 
-            const { isPresent, ...volunteeringData } = data;
-            const endsOn = isPresent ? null : volunteeringData.endsOn;
+        const onSubmit: SubmitHandler<ProjectItemFormType> = async (data) => {
+
+            let response;
+
+            const { isPresent, ...projectData } = data;
+            const endsOn = isPresent ? null : projectData.endsOn;
 
             if (currentItem) {
-                const volunteeringObject: ProjectItemType = {
-                    ...volunteeringData,
+                const projectObject: ProjectItemType = {
+                    ...projectData,
                     endsOn: endsOn,
                     id: currentItem.id,
                 };
+                response = await AddProjectItem(projectObject);
                 setProjectItemsArray(prev => {
                     const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
-                    existingItem.push(volunteeringObject);
+                    existingItem.push(projectObject);
                     return existingItem;
                 });
             } else {
-                const volunteeringObject: ProjectItemType = {
-                    ...volunteeringData,
+                const projectObject: ProjectItemType = {
+                    ...projectData,
                     endsOn: endsOn,
                     id: uuidv4(),
                 };
-                setProjectItemsArray(prev => [...prev, volunteeringObject]);
+                response = await AddProjectItem(projectObject);
+                setProjectItemsArray(prev => [...prev, projectObject]);
             }
 
             onClose();
             setCurrentItem(null);
             reset();
+
+            toast({
+                title: response.message,
+                status: response.status as "success" | "error",
+                duration: 9000,
+                isClosable: true,
+            });
         };
 
         useEffect(() => {
@@ -200,6 +215,8 @@ const ProfileProjectModal: React.FC<{
                                 w="full"
                                 mt={3}
                                 colorScheme='purple'
+                                isLoading={isSubmitting}
+                                loadingText={currentItem ? "Updating...": "Adding..."}
                             >
                                 {currentItem ? "Update" : "Add"}
                             </Button>

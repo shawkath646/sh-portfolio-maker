@@ -16,8 +16,10 @@ import {
     Text,
 } from "@chakra-ui/react";
 import ItemDeleteModal from "@/components/modal/itemDelete.modal";
+import removeEducationItem from "@/actions/database/portfolio/removeEducationItem";
 import formatDate from "@/utils/formatDate";
 import { EducationItemType } from "@/types/types";
+
 
 const EducationFrame: React.FC<{
     item: EducationItemType,
@@ -129,7 +131,8 @@ const EducationFrame: React.FC<{
                 <ItemDeleteModal
                     isOpen={isOpen}
                     onClose={onClose}
-                    onDelete={() => {
+                    onDelete={async() => {
+                        await removeEducationItem(item.id);
                         setEducationItemsArray(prev => prev.filter(prevItem => item !== prevItem));
                     }}
                 />

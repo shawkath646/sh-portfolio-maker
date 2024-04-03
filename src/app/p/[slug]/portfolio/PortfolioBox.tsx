@@ -4,7 +4,7 @@ import { Link } from "@chakra-ui/next-js";
 import Education from "./Education";
 import WorkExperience from "./WorkExperience";
 import Volunteering from "./Volunteering";
-import Reawards from "./Reawards";
+import ReawardAndAchievement from "./ReawardAndAchievement";
 import { PortfolioDataType } from "@/types/types";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IoWarning } from "react-icons/io5";
@@ -17,24 +17,29 @@ const PortfolioBox = ({ portfolioData, username }: { portfolioData: PortfolioDat
         bgColor="#f1f5f9"
     >
         <Container maxW={1536} mx="auto" pt={20} overflow="hidden" minHeight="75vh">
-            {portfolioData.education.length > 0 && (
-                <Education educationData={portfolioData.education} />
+            {portfolioData.educationItems.length > 0 && (
+                <Education educationData={portfolioData.educationItems} />
             )}
-            {portfolioData.workExperience.length > 0 && (
-                <WorkExperience workExperienceData={portfolioData.workExperience} />
+            {portfolioData.workExperienceItems.length > 0 && (
+                <WorkExperience workExperienceData={portfolioData.workExperienceItems} />
             )}
-            {portfolioData.volunteering.length > 0 && (
-                <Volunteering volunteeringData={portfolioData.volunteering} />
+            {portfolioData.volunteeringItems.length > 0 && (
+                <Volunteering volunteeringData={portfolioData.volunteeringItems} />
             )}
-            {portfolioData.reawards.length > 0 && (
-                <Reawards reawardsData={portfolioData.reawards} />
+            {portfolioData.reawardAndAchievementItems.length > 0 && (
+                <ReawardAndAchievement reawardAndAchievementItems={portfolioData.reawardAndAchievementItems} />
             )}
-            {(!portfolioData.education.length || !portfolioData.workExperience.length || !portfolioData.volunteering.length || !portfolioData.reawards.length) && (
-                <Box as={Center} minH="60vh" gap={3}>
-                    <IoWarning size={26} />
-                    <Text fontSize="24px">No portfolio item found.</Text>
-                </Box>
-            )}
+            {(!portfolioData.educationItems.length
+                && !portfolioData.workExperienceItems.length
+                && !portfolioData.volunteeringItems.length
+                && !portfolioData.reawardAndAchievementItems.length
+            )
+                && (
+                    <Box as={Center} minH="60vh" gap={3}>
+                        <IoWarning size={26} />
+                        <Text fontSize="24px">No portfolio item found.</Text>
+                    </Box>
+                )}
             <Flex
                 justifyContent="space-between"
                 alignItems="center"

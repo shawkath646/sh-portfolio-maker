@@ -17,7 +17,7 @@ const HomeBox = ({ homeData, username }: { homeData: HomeDataType, username: str
         <Container maxW={1536} mx="auto" pt={20} overflow="hidden">
             <Intro introData={homeData.intro} />
             {homeData.skillItems.length > 0 && (
-                <Skills categories={homeData.intro.skillsCategories} skillsItem={homeData.skillItems} />
+                <Skills categories={homeData.intro.skillCategories} skillsItem={homeData.skillItems} />
             )}
             {homeData.featuredItems.length > 0 && (
                 <Featured featuredItems={homeData.featuredItems} />

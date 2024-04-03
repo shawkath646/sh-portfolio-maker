@@ -16,7 +16,7 @@ import {
     ModalBody,
     ModalCloseButton,
     Select,
-    useToast
+    useToast,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -49,44 +49,46 @@ const ProfileFeaturedModal: React.FC<{
             reset,
             setError,
             register,
-            formState: { errors },
+            formState: { errors, isSubmitting },
         } = useForm<PartialBy<FeaturedItemType, "id">>({
             resolver: yupResolver(featuredItemSchema)
         });
 
         const toast = useToast();
 
-        const onSubmit: SubmitHandler<PartialBy<FeaturedItemType, "id">> = async(data) => {
-            const response = async() => {
-                if (currentItem) {
-                    const featuredObject: FeaturedItemType = {
-                        ...data,
-                        id: currentItem.id,
-                    };
-                    await updateFeaturedItem(featuredObject);
-                    setFeaturedItemsArray(prev => {
-                        const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
-                        existingItem.push(featuredObject);
-                        return existingItem;
-                    });
-                } else {
-                    const featuredObject: FeaturedItemType = {
-                        ...data,
-                        id: uuidv4(),
-                    };
-                    await updateFeaturedItem(featuredObject);
-                    setFeaturedItemsArray(prev => [...prev, featuredObject]);
-                }
-    
-                onClose();
-                setCurrentItem(null);
-                reset();
+        const onSubmit: SubmitHandler<PartialBy<FeaturedItemType, "id">> = async (data) => {
+
+            let response;
+
+            if (currentItem) {
+                const featuredObject: FeaturedItemType = {
+                    ...data,
+                    id: currentItem.id,
+                };
+                response = await updateFeaturedItem(featuredObject);
+                setFeaturedItemsArray(prev => {
+                    const existingItem = prev.filter(prevItem => prevItem.id !== currentItem.id);
+                    existingItem.push(featuredObject);
+                    return existingItem;
+                });
+            } else {
+                const featuredObject: FeaturedItemType = {
+                    ...data,
+                    id: uuidv4(),
+                };
+                response = await updateFeaturedItem(featuredObject);
+                setFeaturedItemsArray(prev => [...prev, featuredObject]);
             }
 
-            toast.promise(response(), {
-                success: { title: 'Featured item added successfully' },
-                error: { title: 'Something wrong', },
-                loading: { title: 'Adding featured item...' },
+            onClose();
+            setCurrentItem(null);
+            reset();
+
+            toast({
+                title: response.message,
+                status: response.status as "success" | "error",
+                duration: 9000,
+                isClosable: true,
             });
         };
 
@@ -149,6 +151,8 @@ const ProfileFeaturedModal: React.FC<{
                                 w="full"
                                 mt={3}
                                 colorScheme='purple'
+                                isLoading={isSubmitting}
+                                loadingText={currentItem ? "Updating..." : "Adding..."}
                             >
                                 {currentItem ? "Update" : "Add"}
                             </Button>
