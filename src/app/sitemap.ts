@@ -10,7 +10,7 @@ interface SitemapEntry {
 
 function getUserSitemapEntries(allUser: any[], urlSuffix: string): SitemapEntry[] {
     return allUser.map((item) => ({
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/p/${item.id}${urlSuffix}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/p/${item.username}${urlSuffix}`,
         lastModified: item.joinedOn as Date,
         changeFrequency: 'weekly',
         priority: 0.8,

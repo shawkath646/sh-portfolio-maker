@@ -124,8 +124,8 @@ const LandingBox = ({
                     {isLargerThan768 && (
                         <GridItem as={Center} color="#fff">
                             <Box>
-                                <Heading as="h1" mb={8}>Animated name and profile picture</Heading>
-                                <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                                <Heading as="h1" mb={8}>Animated Introduction Section</Heading>
+                                <Text>Present your name, profile, title, and description elegantly with customizable buttons that enable the display of public links and vibrant animated social media icons.</Text>
                             </Box>
                         </GridItem>
                     )}
@@ -144,8 +144,8 @@ const LandingBox = ({
                     {!isLargerThan768 && (
                         <GridItem as={Center} color="#fff">
                             <Box>
-                                <Heading as="h1" mb={8}>Animated name and profile picture</Heading>
-                                <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                                <Heading as="h1" mb={8}>Animated Introduction Section</Heading>
+                                <Text>Present your name, profile, title, and description elegantly with customizable buttons that enable the display of public links and vibrant animated social media icons.</Text>
                             </Box>
                         </GridItem>
                     )}
@@ -167,8 +167,8 @@ const LandingBox = ({
                     </GridItem>
                     <GridItem as={Center} color="#fff">
                         <Box>
-                            <Heading as="h1" mb={8}>Organized skills & Colorful Featured Section</Heading>
-                            <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                            <Heading as="h1" mb={8}>Organized Skills and Beautiful Featured Cards</Heading>
+                            <Text>Curate a selection of your favorite scenes and showcase yourself through a captivating animated photo grid.</Text>
                         </Box>
                     </GridItem>
                 </Container>
@@ -178,8 +178,8 @@ const LandingBox = ({
                     {isLargerThan768 && (
                         <GridItem as={Center} color="#fff">
                             <Box>
-                                <Heading as="h1" mb={8}>Animated name and profile picture</Heading>
-                                <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                                <Heading as="h1" mb={8}>Explore Your Pictures</Heading>
+                                <Text>Immerse yourself in a visual journey by adding select scenes that reflect your personality and interests. Create a captivating experience with a beautifully animated photo grid, designed to showcase your unique perspective and moments that resonate with you.</Text>
                             </Box>
                         </GridItem>
                     )}
@@ -198,8 +198,8 @@ const LandingBox = ({
                     {!isLargerThan768 && (
                         <GridItem as={Center} color="#fff">
                             <Box>
-                                <Heading as="h1" mb={8}>Animated name and profile picture</Heading>
-                                <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                                <Heading as="h1" mb={8}>Explore Your Pictures</Heading>
+                                <Text>Immerse yourself in a visual journey by adding select scenes that reflect your personality and interests. Create a captivating experience with a beautifully animated photo grid, designed to showcase your unique perspective and moments that resonate with you.</Text>
                             </Box>
                         </GridItem>
                     )}
@@ -221,8 +221,8 @@ const LandingBox = ({
                     </GridItem>
                     <GridItem as={Center} color="#fff">
                         <Box>
-                            <Heading as="h1" mb={8}>Organized skills & Colorful Featured Section</Heading>
-                            <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                            <Heading as="h1" mb={8}>Your Portfolio, Your Profile, Your Career.</Heading>
+                            <Text>Present your life's narrative through curated sections such as education, work experience, volunteering, and rewards & achievements. Showcase your journey to elevate your career trajectory and make a lasting impression on potential collaborators and employers.</Text>
                         </Box>
                     </GridItem>
                 </Container>
@@ -232,8 +232,8 @@ const LandingBox = ({
                     {isLargerThan768 && (
                         <GridItem as={Center} color="#fff">
                             <Box>
-                                <Heading as="h1" mb={8}>Animated name and profile picture</Heading>
-                                <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                                <Heading as="h1" mb={8}>Your Project Showcase</Heading>
+                                <Text>Whether you're a beginner or advanced, highlight all your projects in your profile to showcase your skills to others. Include source links such as GitHub and live links, complemented by beautiful logos and cover pictures, to captivate your clients. Unlock a detailed Project page with a markdown file, providing additional insights into your projects and enhancing their appeal.</Text>
                             </Box>
                         </GridItem>
                     )}
@@ -252,8 +252,8 @@ const LandingBox = ({
                     {!isLargerThan768 && (
                         <GridItem as={Center} color="#fff">
                             <Box>
-                                <Heading as="h1" mb={8}>Animated name and profile picture</Heading>
-                                <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                                <Heading as="h1" mb={8}>Your Project Showcase</Heading>
+                                <Text>Whether you're a beginner or advanced, highlight all your projects in your profile to showcase your skills to others. Include source links such as GitHub and live links, complemented by beautiful logos and cover pictures, to captivate your clients. Unlock a detailed Project page with a markdown file, providing additional insights into your projects and enhancing their appeal.</Text>
                             </Box>
                         </GridItem>
                     )}
@@ -275,8 +275,8 @@ const LandingBox = ({
                     </GridItem>
                     <GridItem as={Center} color="#fff">
                         <Box>
-                            <Heading as="h1" mb={8}>Organized skills & Colorful Featured Section</Heading>
-                            <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                            <Heading as="h1" mb={8}>Preserve Your Golden Memories Anywhere.</Heading>
+                            <Text>Share your cherished moments with others by uploading your golden photos. Organize them into different categories for easy access and present them beautifully with tap-to-view popups, ensuring your memories shine bright for all to see.</Text>
                         </Box>
                     </GridItem>
                 </Container>
@@ -286,8 +286,8 @@ const LandingBox = ({
                     {isLargerThan768 && (
                         <GridItem as={Center} color="#fff">
                             <Box>
-                                <Heading as="h1" mb={8}>Animated name and profile picture</Heading>
-                                <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                                <Heading as="h1" mb={8}>Elevate Your Profile with Additional Information.</Heading>
+                                <Text>The Preferences section empowers you to enrich your profile with additional details about yourself. Share information such as your date of birth, marital status, languages spoken, address, and interests. Additionally, document your live events, ensuring that cherished memories are forever etched in time.</Text>
                             </Box>
                         </GridItem>
                     )}
@@ -306,8 +306,8 @@ const LandingBox = ({
                     {!isLargerThan768 && (
                         <GridItem as={Center} color="#fff">
                             <Box>
-                                <Heading as="h1" mb={8}>Animated name and profile picture</Heading>
-                                <Text>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</Text>
+                                <Heading as="h1" mb={8}>Elevate Your Profile with Additional Information.</Heading>
+                                <Text>The Preferences section empowers you to enrich your profile with additional details about yourself. Share information such as your date of birth, marital status, languages spoken, address, and interests. Additionally, document your live events, ensuring that cherished memories are forever etched in time.</Text>
                             </Box>
                         </GridItem>
                     )}

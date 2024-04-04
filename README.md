@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# SH Authentication System
 
-First, run the development server:
+<img src="https://github.com/shawkath646/sh-portfolio-maker/blob/8d19a47ed3e6a12e87f54a74a29a97666d7a33e0/src/app/opengraph-image.png?raw=true" alt="Project Thumbnail" height="300">
+  
+### Project Type: Web Application
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Description:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**SH Portfolio Maker** offers a comprehensive, complimentary platform designed to craft elegant, structured, and animated portfolios tailored to showcase your professional profile. Sign in effortlessly and begin presenting your work with sophistication and ease.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Project Duration: December 2023 - April 2024
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Purpose:
 
-## Learn More
+As a web developer, I often create projects for practice and production purposes. Many of these projects require a login system for protected data. Creating separate accounts for each project is not efficient and results in poor user management. To address this, I developed the SH Authentication System using OAuth 2.0 and OpenID client support. Now, users can access multiple applications under one account, and I can also save user-customized data. Additionally, other developers can utilize these features by registering their apps.
 
-To learn more about Next.js, take a look at the following resources:
+### Technology Used:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [NextJS 14](https://nextjs.org/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- [NextAuth v5](https://next-auth.js.org/)
 
-## Deploy on Vercel
+- [Typescript](https://www.typescriptlang.org/)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [ChakraUI](https://chakra-ui.com/)
+
+- [Firestore](https://firebase.google.com/docs/firestore)
+  
+
+### Project Insights:
+
+1. Ideation, design, conceptualization, and successful completion of projects.
+
+2. Professional full-stack web application development.
+
+3. Responsive UI/UX design implementation.
+
+4. Implementation of highly engaging animations.
+
+5. Management of per-user portfolio profiles.
+
+6. Database management for user data.
+
+7. Proficiency in handling complex logic and critical thinking.
+
+8. Website SEO optimization and indexing.
+
+9. Concepts of responsive Markdown rendering.
+
+9. Highly optimized for faster loading and prevention of crashing.
+
+10. Time management for development alongside studies
+
+### Live Link: [SH Portfolio Maker](https://sh-portfolio-maker.vercel.app/)
+
+### Author:
+
+-  **Shawkat Hossain Maruf**
+
+- [Portfolio](https://sh-portfolio-maker.vercel.app/p/shawkath646)
+
+- Email: shawkath646@gmail.com
+
+- Occupation: Student
+
+<img  src="https://storage.googleapis.com/sh-cloudburst-labs.appspot.com/cloudburst_lab_logo_transparent.png?GoogleAccessId=firebase-adminsdk-lf84z%40sh-cloudburst-labs.iam.gserviceaccount.com&Expires=4863727974&Signature=B1G9adLuRnjVIxGHoh3dyMVtGsR00KdmatEJRzKpMHPDjgsUX%2Bi9VftAz71puzbFmFsC5xP%2FHZFcBKQ7NBfJbkQzhiuywJMBmOSJlsn7mNfLgZlEsU5ReaNaMXDF6y3W65YeR76u2XBiQjAvVNl%2FEIvMvgbanNJWoDULrxF1OgeF1q8O270oT05ZfzIytLpi7c%2BbBIv6OtmzeUHNa0KJaTX0QPcdesQKFL0pQpaQPncdk6iQtOCOUafgKfQregHwn9iOo1iW1SM4sLw92uJURvLWimyq8JUWjc8J8AXyActsuwQs9IRQz5%2BUjc4k5zVwIS4fQDODvN8t97FDR2Sg7g%3D%3D"  alt="CloudBurst Logo"  height="80" width="150">
+
+*A product of [CloudBurst Lab](https://cloudburstlab.vercel.app)*
