@@ -11,10 +11,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
     if (!response) redirect("/not-found");
     const userId = response.id;
 
-    const portfolioData = await getProjectsData(userId);
-    if (!portfolioData) redirect("/not-found");
+    const projectsData = await getProjectsData(userId);
+    if (!projectsData) redirect("/not-found");
 
     await addViewer(userId);
 
-    return <ProjectsBox projectsData={portfolioData} username={params.slug} />
+    return <ProjectsBox projectsData={projectsData} username={params.slug} />
 }

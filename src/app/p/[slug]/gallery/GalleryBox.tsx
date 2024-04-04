@@ -173,7 +173,7 @@ const GalleryBox = ({ username, galleryData }: { username: string, galleryData: 
                             const hasPrevious = currentIndex > 0;
                             const hasNext = currentIndex !== -1 && currentIndex + 1 < filteredArray.length;
                             return (
-                                <Box display="flex" alignItems="center" width="full" gap={4}>
+                                <Box display="flex" alignItems="center" width="full" h="70vh" gap={4}>
                                     <Button
                                         variant="none"
                                         size="xl"
@@ -192,18 +192,18 @@ const GalleryBox = ({ username, galleryData }: { username: string, galleryData: 
                                         <IoIosArrowBack size={30} />
                                     </Button>
                                     {currentPic && (
-                                        <Center width="full">
+                                        <Box w="full">
                                             <Image
                                                 src={currentPic.src}
                                                 alt="View gallery item"
                                                 width={currentPic.width}
                                                 height={currentPic.height}
                                                 style={{
-                                                    height: "70vh",
-                                                    width: "auto"
+                                                    height: "auto",
+                                                    width: "full"
                                                 }}
                                             />
-                                        </Center>
+                                        </Box>
                                     )}
                                     <Button
                                         variant="none"

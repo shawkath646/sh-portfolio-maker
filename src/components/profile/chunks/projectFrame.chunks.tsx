@@ -24,6 +24,7 @@ import removeProjectItem from "@/actions/database/projects/removeProjectItem";
 import formatDate from "@/utils/formatDate";
 import { ProjectItemType } from "@/types/types";
 import { FaGithub, FaFile, FaExternalLinkAlt, FaRegImages } from "react-icons/fa";
+import { IoLogoAppleAr } from "react-icons/io5";
 
 
 
@@ -65,15 +66,19 @@ const ProjectFrame: React.FC<{
                             border="4px solid white"
                             bgColor="#fff"
                         >
-                            <Image
-                                src={item.icon}
-                                alt={`${item.name} icon`}
-                                height={70}
-                                width={70}
-                                style={{
-                                    height: "67px", width: "70px"
-                                }}
-                            />
+                            {item.icon ? (
+                                <Image
+                                    src={item.icon}
+                                    alt={`${item.name} icon`}
+                                    height={70}
+                                    width={70}
+                                    style={{
+                                        height: "67px", width: "70px"
+                                    }}
+                                />
+                            ) : (
+                                <IoLogoAppleAr size={50} color="#8b5cf6" />
+                            )}
                         </Box>
                     </Box>
                     <Popover>
@@ -131,7 +136,7 @@ const ProjectFrame: React.FC<{
                 <ItemDeleteModal
                     isOpen={isOpen}
                     onClose={onClose}
-                    onDelete={async() => {
+                    onDelete={async () => {
                         await removeProjectItem(item.id);
                         setProjectItemsArray(prev => prev.filter(prevItem => prevItem !== item))
                     }}

@@ -1,6 +1,7 @@
+import { cache } from "react";
 import { db } from "@/config/firebase.config";
 import { GalleryCollectionType, GalleryDataType, GalleryItemType } from "@/types/types";
-import { cache } from "react";
+
 
 const getGalleryData = cache(async (userId: string) => {
     const collectionRef = await db.collection("gallery").doc(userId).get();

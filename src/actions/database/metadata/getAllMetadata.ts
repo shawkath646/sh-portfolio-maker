@@ -6,7 +6,6 @@ import { MetaDataType } from '@/types/types';
 
 const getAllMetadata = cache(async () => {
     const metadataSnapshot: QuerySnapshot = await db.collection('metadata').get();
-    if (metadataSnapshot.empty) return null;
 
     const metadataArrayPromises: Promise<MetaDataType>[] = metadataSnapshot.docs.map(async (doc: QueryDocumentSnapshot) => {
         const data = doc.data() as MetaDataType;

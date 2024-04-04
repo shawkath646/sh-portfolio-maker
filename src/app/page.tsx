@@ -1,9 +1,17 @@
 "use server";
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { auth } from './auth';
 import SHAS from 'shas-app-controller';
 import LandingBox from '@/components/landingPage/LandingBox';
 import getAllMetadata from '@/actions/database/metadata/getAllMetadata';
+
+
+export async function metadata(): Promise<Metadata> {
+  return {
+    title: "Welcome - SH Portfolio Maker"
+  }
+};
 
 
 export default async function Home() {

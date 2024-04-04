@@ -160,6 +160,7 @@ const Intro = ({ introData }: { introData: IntroType }) => {
                         <Button
                             as={motion.button}
                             colorScheme="blue"
+                            isDisabled
                             rounded={20}
                             initial={{
                                 opacity: 0,

@@ -1,4 +1,4 @@
-import { User } from 'next-auth'; // Import the default User type
+import { User } from 'next-auth';
 import { CloudBurstLabProfile } from 'next-auth-provider-cloudburst-lab';
 
 declare module 'next-auth' {

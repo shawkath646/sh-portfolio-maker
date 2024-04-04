@@ -73,7 +73,7 @@ const SignInBox = ({
                         isDisabled={!isAccepted}
                         mx={["auto", "auto", "unset"]}
                         display="block"
-                        onClick={() => signIn("cloudburst-lab")}
+                        onClick={() => signIn("cloudburst-lab", { callbackUrl: "/profile" })}
                         leftIcon={brandIconTransparent ? <Image src={brandIconTransparent} alt={`${brandName} logo`} height={20} width={38} /> : undefined}
                     >
                         Sign in with {brandName}

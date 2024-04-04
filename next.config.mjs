@@ -8,19 +8,19 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'picsum.photos',
         port: '',
-        pathname: '/**', // Use the regex pattern for all paths in the specified domain
+        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'storage.googleapis.com',
         port: '',
-        pathname: '/**', // Use the regex pattern for all paths in the specified domain
+        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
         port: '',
-        pathname: '/**', // Use the regex pattern for all paths in the specified domain
+        pathname: '/**',
       },
     ],
   },

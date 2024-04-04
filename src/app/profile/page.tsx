@@ -1,4 +1,5 @@
 "use server";
+import type { Metadata } from 'next';
 import { redirect } from "next/navigation";
 import { Session } from "next-auth";
 import { auth } from "@/app/auth";
@@ -8,6 +9,12 @@ import ProfileFeatured from '@/components/profile/featured.profile';
 import ProfileSkills from '@/components/profile/skills.profile';
 import ProfileMiniGallery from '@/components/profile/miniGallery.profile';
 import getHomeData from "@/actions/database/home/getHomeData";
+
+export async function metadata(): Promise<Metadata> {
+    return {
+        title: "Profile - SH Portfolio Maker"
+    }
+};
 
 export default async function Page() {
 

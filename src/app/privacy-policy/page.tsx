@@ -1,8 +1,15 @@
-"use client";
+"use server";
+import type { Metadata } from 'next';
 import { Box, Container, Divider, SimpleGrid, Text } from '@chakra-ui/react';
 import privacyPolicy from "@/JSONData/privacyPolicy.json";
 
-const Page = () => (
+export async function metadata(): Promise<Metadata> {
+    return {
+        title: "Privacy Policy - SH Portfolio Maker"
+    }
+};
+
+const Page = async () => (
     <Box as="main" w="full" h="full">
         <Container as="section" maxW={1536} mx="auto" pt={20} mb={5} px={5} bg="white" minH="75vh">
             <Text fontSize='3xl' fontWeight="bold" textAlign="center" mb={5}>Privacy Policy</Text>

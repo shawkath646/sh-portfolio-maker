@@ -71,7 +71,7 @@ const ProfilePreferences: React.FC<{ personalData: PersonalDataType }> = ({ pers
 
     const toast = useToast();
 
-    const maritalStatusTypes = ["Hidden", "Single", "Married", "Divorced", "Widowed", "Separated", "Domestic Partnership", "Civil Union", "Annulled", "Other"];
+    const maritalStatusTypes = ["Hidden", "Single", "Married", "Divorced", "Other"];
 
     const onSubmit: SubmitHandler<PersonalDataFormType> = async (data) => {
         const { presentAddressLine1, presentAddressLine2, permanentAddressLine1, permanentAddressLine2, isDateOfBirthHidden, dateOfBirth, ...restData } = data;

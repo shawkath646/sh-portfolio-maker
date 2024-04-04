@@ -5,8 +5,6 @@ import getMetadataByUsername from '@/actions/database/metadata/getMetadataByUser
 import getHomeData from '@/actions/database/home/getHomeData';
 import addViewer from '@/actions/database/addViewer';
 
-
-
 export default async function Page({ params }: { params: { slug: string } }) {
 
   const response = await getMetadataByUsername(params.slug);

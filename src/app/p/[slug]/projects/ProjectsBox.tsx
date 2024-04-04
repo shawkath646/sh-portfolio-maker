@@ -7,9 +7,9 @@ import formatDate from "@/utils/formatDate";
 import { ProjectItemType } from "@/types/types";
 import { FaGithub, FaExternalLinkAlt, FaFile, FaRegImages } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { IoWarning } from "react-icons/io5";
+import { IoWarning, IoLogoAppleAr } from "react-icons/io5";
 
-const ProjectBox = ({ projectsData, username }: { projectsData: ProjectItemType[], username: string }) => (
+const ProjectBox: React.FC<{ projectsData: ProjectItemType[], username: string }> = ({ projectsData, username }) => (
     <Box
         as="main"
         w="full"
@@ -60,15 +60,19 @@ const ProjectBox = ({ projectsData, username }: { projectsData: ProjectItemType[
                                         overflow="hidden"
                                         border="4px solid white"
                                     >
-                                        <Image
-                                            src={item.icon}
-                                            alt={`${item.name} icon`}
-                                            height={70}
-                                            width={70}
-                                            style={{
-                                                height: "67px", width: "70px"
-                                            }}
-                                        />
+                                        {item.icon ? (
+                                            <Image
+                                                src={item.icon}
+                                                alt={`${item.name} icon`}
+                                                height={70}
+                                                width={70}
+                                                style={{
+                                                    height: "67px", width: "70px"
+                                                }}
+                                            />
+                                        ) : (
+                                            <IoLogoAppleAr size={50} color="#8b5cf6" />
+                                        )}
                                     </Box>
                                 </Box>
                                 <Heading as="h3" fontWeight={500} fontSize="xl" mb={2}>{item.name}</Heading>

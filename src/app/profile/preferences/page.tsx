@@ -21,8 +21,6 @@ export default async function Page() {
 
     if (!preferencesData || !metaData) redirect("/profile/create-user");
 
-
-
     return (
         <Container as="main" maxW={1536} mx="auto" pt={20} px={5} overflow="hidden" minH="75vh" mb={10}>
             <ProfilePersonalData personalData={preferencesData.personalData} />

@@ -34,7 +34,7 @@ const PreferencesBox = ({ username, preferencesData, joinedOn, profileViews }: {
                             &nbsp;{formatDate(preferencesData.personalData.dateOfBirth as Date)}
                         </Text>
                     )}
-                    {preferencesData.personalData.maritalStatus && (
+                    {preferencesData.personalData.maritalStatus !== "Hidden" && (
                         <Text mb={1}>
                             <Text as="span" fontWeight={500}>Marital Status:</Text>
                             &nbsp;{preferencesData.personalData.maritalStatus}
@@ -139,7 +139,7 @@ const PreferencesBox = ({ username, preferencesData, joinedOn, profileViews }: {
                 </GridItem>
             </SimpleGrid>
             <Flex my="50px" alignItems="center" gap={2} justifyContent="center">
-                <Text>
+                <Text isTruncated>
                     <Text as="span" fontWeight={500} color="#3b82f6">Profile URL:</Text>
                     &nbsp;{process.env.NEXT_PUBLIC_BASE_URL}/p/{username}
                 </Text>
